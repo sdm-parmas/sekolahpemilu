@@ -56,13 +56,47 @@
         }
 
         /* Ukuran font dinamis yang aman dari posisi mentok */
-        .text-title { font-size: clamp(13px, 4.2vw, 48px); }
-        .text-subtitle { font-size: clamp(15px, 5.2vw, 48px); }
-        .text-slogan { font-size: clamp(9px, 2.3vw, 16px); }
+        .text-title { font-size: clamp(11px, 3.5vw, 38px); }
+        .text-subtitle { font-size: clamp(13px, 4.4vw, 40px); }
+        .text-slogan { font-size: clamp(8px, 2vw, 14px); }
         
         /* Ukuran coming soon disesuaikan agar pas di layar kecil tanpa terlalu lebar */
-        .text-coming { font-size: clamp(28px, 9.5vw, 128px); }
-        .text-soon { font-size: clamp(28px, 9.5vw, 128px); }
+        .text-coming { font-size: clamp(22px, 7.5vw, 96px); }
+        .text-soon { font-size: clamp(22px, 7.5vw, 96px); }
+
+        /* ===== Animasi tambahan ===== */
+        /* Muncul dari bawah secara berurutan saat halaman dibuka */
+        .reveal {
+            opacity: 0;
+            animation: fadeUp 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(18px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Logo melayang pelan */
+        .float-soft { animation: floatSoft 5s ease-in-out infinite; }
+        @keyframes floatSoft {
+            0%, 100% { transform: translateY(0); }
+            50%      { transform: translateY(-6px); }
+        }
+
+        /* Kilau tipis yang lewat di garis pemisah */
+        .shimmer-line {
+            background-size: 200% 100%;
+            animation: shimmer 3.5s linear infinite;
+        }
+        @keyframes shimmer {
+            from { background-position: 200% 0; }
+            to   { background-position: -200% 0; }
+        }
+
+        /* Hormati pengguna yang menonaktifkan animasi */
+        @media (prefers-reduced-motion: reduce) {
+            .reveal { animation: none; opacity: 1; }
+            .float-soft, .shimmer-line { animation: none; }
+        }
     </style>
 </head>
 
@@ -73,16 +107,18 @@
     <div class="absolute -top-32 -left-32 w-64 h-64 bg-brand-red rounded-full mix-blend-screen filter blur-[100px] opacity-30 animate-pulse-slow"></div>
     <div class="absolute -bottom-32 -right-32 w-64 h-64 bg-white rounded-full mix-blend-screen filter blur-[100px] opacity-10 animate-pulse-slow" style="animation-delay: 2s;"></div>
 
-    <!-- Container Utama -->
-    <main class="relative z-10 flex flex-col items-center justify-center w-full max-w-5xl px-6 md:px-12 mx-auto text-center h-full -mt-16 md:-mt-24 pb-20 md:pb-0">
-        
-        <!-- Bagian Logo -->
-        <div class="mb-6 md:mb-12 drop-shadow-[0_10px_20px_rgba(217,28,31,0.3)] transform hover:scale-105 transition-transform duration-500">
-            <img src="assets/Logo.png" alt="Logo Sekolah Pemilu dan Demokrasi" class="mx-auto h-auto object-contain w-24 sm:w-28 md:w-36 lg:w-44">
+    <!-- Container Utama (mobile: naik lebih tinggi dengan -mt-28) -->
+    <main class="relative z-10 flex flex-col items-center justify-center w-full max-w-5xl px-6 md:px-12 mx-auto text-center h-full -mt-28 md:-mt-24 pb-20 md:pb-0">
+        <br><br><br><br>
+        <!-- Bagian Logo (jarak ke judul diperbesar: mb-10 / md:mb-16) -->
+        <div class="reveal mb-10 md:mb-16" style="animation-delay: 0.1s;">
+            <div class="float-soft drop-shadow-[0_10px_20px_rgba(217,28,31,0.3)] transform hover:scale-105 transition-transform duration-500">
+                <img src="assets/Logo.png" alt="Logo Sekolah Pemilu dan Demokrasi" class="mx-auto h-auto object-contain w-24 sm:w-28 md:w-36 lg:w-44">
+            </div>
         </div>
 
         <!-- Judul Acara -->
-        <div class="mb-2 w-full flex flex-col items-center justify-center">
+        <div class="reveal mb-2 w-full flex flex-col items-center justify-center" style="animation-delay: 0.3s;">
             <h1 class="text-title font-black tracking-tight uppercase whitespace-nowrap">
                 Sekolah Pemilu & Demokrasi
             </h1>
@@ -92,7 +128,7 @@
         </div>
 
         <!-- Subjudul / Slogan -->
-        <div class="w-full flex items-center justify-center mt-2 mb-6">
+        <div class="reveal w-full flex items-center justify-center mt-2 mb-6" style="animation-delay: 0.5s;">
             <p class="text-slogan font-semibold tracking-[0.2em] md:tracking-[0.3em] text-gray-300 uppercase whitespace-nowrap">
                 Belajar <span class="text-brand-red mx-1 md:mx-2">•</span> 
                 Memahami <span class="text-brand-red mx-1 md:mx-2">•</span> 
@@ -101,7 +137,7 @@
         </div>
 
         <!-- Teks Coming Soon Besar (Dioptimalkan agar mengecil secara aman) -->
-        <div class="w-full flex flex-row items-center justify-center gap-2 md:gap-6 my-3 md:my-8 whitespace-nowrap">
+        <div class="reveal w-full flex flex-row items-center justify-center gap-2 md:gap-6 my-3 md:my-8 whitespace-nowrap" style="animation-delay: 0.7s;">
             <h2 class="text-coming font-black tracking-widest italic animate-glow transform -skew-x-6">
                 <span class="text-transparent bg-clip-text bg-gradient-to-br from-white via-gray-200 to-gray-500">COMING</span>
             </h2>
@@ -111,13 +147,13 @@
         </div>
 
         <!-- Pesan Stay Tuned -->
-        <div class="w-full flex flex-col items-center justify-center mt-3">
-            <div class="h-px w-24 md:w-32 bg-gradient-to-r from-transparent via-brand-red to-transparent mb-4 opacity-70"></div>
+        <div class="reveal w-full flex flex-col items-center justify-center mt-3" style="animation-delay: 0.9s;">
+            <div class="shimmer-line h-px w-24 md:w-32 bg-gradient-to-r from-transparent via-brand-red to-transparent mb-4 opacity-70"></div>
             <p class="text-xs md:text-base lg:text-lg font-medium tracking-[0.1em] md:tracking-[0.15em] text-gray-300 uppercase whitespace-nowrap">
                 Stay tuned on 
                 <span class="text-brand-red font-black ml-1 md:ml-2 drop-shadow-[0_0_8px_rgba(217,28,31,0.5)]">October 2026</span>
             </p>
-            <div class="h-px w-24 md:w-32 bg-gradient-to-r from-transparent via-brand-red to-transparent mt-4 opacity-70"></div>
+            <div class="shimmer-line h-px w-24 md:w-32 bg-gradient-to-r from-transparent via-brand-red to-transparent mt-4 opacity-70"></div>
         </div>
 
     </main>
