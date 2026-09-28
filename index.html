@@ -34,7 +34,7 @@
                     keyframes: {
                         glow: {
                             '0%': { textShadow: '0 0 10px rgba(217,28,31,0.5), 0 0 20px rgba(217,28,31,0.3)' },
-                            '100%': { textShadow: '0 0 20px rgba(217,28,31,0.8), 0 0 40px rgba(217,28,31,0.5)' }
+                            '100%': { textShadow: '0 0 15px rgba(217,28,31,0.7), 0 0 30px rgba(217,28,31,0.5)' }
                         }
                     }
                 }
@@ -45,7 +45,7 @@
     <style>
         /* Efek latar belakang bercahaya yang halus */
         .glow-bg {
-            background: radial-gradient(circle at 50% 30%, rgba(217, 28, 31, 0.15) 0%, rgba(10, 10, 10, 1) 50%);
+            background: radial-gradient(circle at 50% 30%, rgba(217, 28, 31, 0.12) 0%, rgba(10, 10, 10, 1) 50%);
         }
         
         /* Menyembunyikan scrollbar tapi tetap bisa scroll */
@@ -62,26 +62,26 @@
 <body class="bg-brand-dark text-white font-sans antialiased min-h-screen flex flex-col items-center justify-center glow-bg relative overflow-hidden selection:bg-brand-red selection:text-white">
 
     <!-- Ornamen dekoratif latar belakang -->
-    <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-brand-red to-transparent"></div>
-    <div class="absolute -top-32 -left-32 w-64 h-64 bg-brand-red rounded-full mix-blend-screen filter blur-[100px] opacity-30 animate-pulse-slow"></div>
-    <div class="absolute -bottom-32 -right-32 w-64 h-64 bg-white rounded-full mix-blend-screen filter blur-[100px] opacity-10 animate-pulse-slow" style="animation-delay: 2s;"></div>
+    <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-transparent via-brand-red to-transparent"></div>
+    <div class="absolute -top-32 -left-32 w-64 h-64 bg-brand-red rounded-full mix-blend-screen filter blur-[120px] opacity-20 animate-pulse-slow"></div>
+    <div class="absolute -bottom-32 -right-32 w-64 h-64 bg-white rounded-full mix-blend-screen filter blur-[120px] opacity-[0.07] animate-pulse-slow" style="animation-delay: 2s;"></div>
 
-    <!-- Container Utama -->
-    <main class="relative z-10 flex flex-col items-center justify-center w-full max-w-5xl px-4 py-8 mx-auto text-center h-full">
+    <!-- Container Utama dengan padding yang lebih rapat -->
+    <main class="relative z-10 flex flex-col items-center justify-center w-full max-w-4xl px-4 py-4 mx-auto text-center h-full">
         
-        <!-- Bagian Logo (Menggunakan referensi gambar yang diberikan) -->
-        <div class="mb-4 drop-shadow-[0_10px_20px_rgba(217,28,31,0.3)] transform hover:scale-105 transition-transform duration-500">
-            <img src="assets/Logo.png" alt="Logo Sekolah Pemilu dan Demokrasi" class="mx-auto h-auto object-contain w-48 md:w-64 lg:w-72">
+        <!-- Bagian Logo (Diperkecil) -->
+        <div class="mb-3 drop-shadow-[0_8px_15px_rgba(217,28,31,0.25)] transform hover:scale-105 transition-transform duration-500">
+            <img src="assets/Logo.png" alt="Logo Sekolah Pemilu dan Demokrasi" class="mx-auto h-auto object-contain w-28 md:w-40 lg:w-48">
         </div>
 
-        <!-- Judul Acara -->
-        <h1 class="text-2xl md:text-4xl lg:text-5xl font-black mb-2 tracking-tight uppercase">
+        <!-- Judul Acara (Diperkecil dan jarak dirapatkan) -->
+        <h1 class="text-xl md:text-3xl lg:text-4xl font-black mb-1 tracking-tight uppercase leading-tight">
             Sekolah Pemilu & Demokrasi <br>
             <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-red to-red-400">Buton Selatan 2026</span>
         </h1>
 
-        <!-- Subjudul / Slogan -->
-        <p class="text-xs md:text-base font-semibold tracking-[0.2em] md:tracking-[0.3em] text-gray-300 mb-10 uppercase flex items-center justify-center gap-2 md:gap-4 flex-wrap">
+        <!-- Subjudul / Slogan (Diperkecil dan jarak dirapatkan) -->
+        <p class="text-[10px] md:text-xs font-semibold tracking-[0.15em] md:tracking-[0.25em] text-gray-300 mb-5 md:mb-6 uppercase flex items-center justify-center gap-1.5 md:gap-3 flex-wrap">
             <span>Belajar</span> 
             <span class="text-brand-red">•</span> 
             <span>Memahami</span> 
@@ -89,22 +89,22 @@
             <span>Berpartisipasi</span>
         </p>
 
-        <!-- Teks Coming Soon Besar Pengganti Timer -->
-        <div class="w-full flex items-center justify-center my-8 md:my-12">
-            <h2 class="text-5xl md:text-7xl lg:text-9xl font-black tracking-widest italic animate-glow transform -skew-x-6">
+        <!-- Teks Coming Soon (Diperkecil dan jarak dirapatkan) -->
+        <div class="w-full flex items-center justify-center my-4 md:my-5">
+            <h2 class="text-4xl md:text-6xl lg:text-7xl font-black tracking-widest italic animate-glow transform -skew-x-6 leading-none">
                 <span class="text-transparent bg-clip-text bg-gradient-to-br from-white via-gray-200 to-gray-500">COMING</span>
-                <span class="text-transparent bg-clip-text bg-gradient-to-br from-brand-red via-red-600 to-red-900 block md:inline mt-2 md:mt-0">SOON</span>
+                <span class="text-transparent bg-clip-text bg-gradient-to-br from-brand-red via-red-600 to-red-900 block md:inline mt-1 md:mt-0">SOON</span>
             </h2>
         </div>
 
-        <!-- Pesan Stay Tuned Pengganti Form Email -->
-        <div class="w-full flex flex-col items-center justify-center mt-2 mb-8">
-            <div class="h-px w-32 bg-gradient-to-r from-transparent via-brand-red to-transparent mb-6 opacity-70"></div>
-            <p class="text-lg md:text-xl lg:text-2xl font-medium tracking-[0.15em] text-gray-300 uppercase text-center">
+        <!-- Pesan Stay Tuned (Diperkecil dan jarak dirapatkan) -->
+        <div class="w-full flex flex-col items-center justify-center mt-1 mb-4">
+            <div class="h-px w-24 bg-gradient-to-r from-transparent via-brand-red to-transparent mb-3 opacity-60"></div>
+            <p class="text-sm md:text-base lg:text-lg font-medium tracking-[0.1em] text-gray-300 uppercase text-center">
                 Stay tuned on <br class="md:hidden">
-                <span class="text-brand-red font-black text-xl md:text-2xl lg:text-3xl ml-0 md:ml-2 drop-shadow-[0_0_8px_rgba(217,28,31,0.5)]">October 2026</span>
+                <span class="text-brand-red font-black text-base md:text-lg lg:text-xl ml-0 md:ml-2 drop-shadow-[0_0_5px_rgba(217,28,31,0.5)]">October 2026</span>
             </p>
-            <div class="h-px w-32 bg-gradient-to-r from-transparent via-brand-red to-transparent mt-6 opacity-70"></div>
+            <div class="h-px w-24 bg-gradient-to-r from-transparent via-brand-red to-transparent mt-3 opacity-60"></div>
         </div>
     </main>
 
