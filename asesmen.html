@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asesmen | Sekolah Pemilu dan Demokrasi KPU Buton Selatan</title>
+    <link rel="icon" href="assets/Logo.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Montserrat', 'sans-serif'] },
+                    colors: { brand: { red: '#D91C1F', dark: '#0a0a0a', gray: '#1a1a1a' } }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .soft-bg {
+            background-color: #2b2b31;
+            background-image:
+                radial-gradient(circle at 50% 0%, rgba(217, 28, 31, 0.35) 0%, rgba(43, 43, 49, 0) 60%),
+                radial-gradient(circle at 100% 100%, rgba(255, 255, 255, 0.06) 0%, rgba(43, 43, 49, 0) 45%);
+            background-attachment: fixed;
+        }
+
+        .form-panel {
+            border-radius: 18px; padding: 28px 20px;
+            background: linear-gradient(180deg, rgba(217,28,31,0.22) 0%, rgba(140,18,22,0.16) 100%);
+            border: 1px solid rgba(255,140,140,0.25);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+        }
+        @media (min-width: 640px) { .form-panel { padding: 40px 28px; } }
+
+        .btn { transition: background .2s ease, transform .2s ease; }
+        .btn:hover { transform: translateY(-2px); }
+        .btn:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+
+        @media (prefers-reduced-motion: reduce) { .btn:hover { transform: none; } }
+    </style>
+</head>
+
+<body class="soft-bg text-white font-sans antialiased min-h-screen flex flex-col selection:bg-brand-red selection:text-white">
+
+    <div class="w-full h-1.5 bg-gradient-to-r from-transparent via-brand-red to-transparent"></div>
+
+    <!-- Header -->
+    <header class="w-full border-b border-white/10 bg-white/5 backdrop-blur">
+        <div class="px-6 md:px-12">
+            <div class="max-w-[760px] mx-auto py-3 flex items-center gap-3 md:gap-4">
+                <a href="https://www.kpu.go.id" target="_blank" rel="noopener" class="shrink-0">
+                    <img src="https://www.kpu.go.id/images/1627539868logo-kpu.png" alt="Logo KPU"
+                         class="h-10 md:h-14 w-auto object-contain">
+                </a>
+                <span class="h-8 md:h-10 w-px bg-white/25"></span>
+                <a href="index.html" class="shrink-0">
+                    <img src="assets/Logo.png" alt="Logo Sekolah Pemilu dan Demokrasi"
+                         class="h-10 md:h-14 w-auto object-contain">
+                </a>
+                <p class="ml-1 text-[11px] md:text-xs font-semibold leading-tight text-gray-200">
+                    Sekolah Pemilu &amp; Demokrasi<br>
+                    <span class="text-red-400 font-black">KPU Buton Selatan</span>
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Konten -->
+    <main class="flex-1 w-full px-6 md:px-12 pt-9 md:pt-12 pb-12">
+        <div class="max-w-[760px] mx-auto">
+
+            <div class="text-center">
+                <h1 class="font-black uppercase tracking-tight text-2xl sm:text-3xl md:text-4xl">Asesmen</h1>
+            </div>
+
+            <div class="form-panel mt-7 text-center">
+                <span class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-brand-red" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1"/><path d="M9 12l2 2 4-4"/><path d="M9 18h6"/></svg>
+                </span>
+                <h2 class="mt-4 text-xl sm:text-2xl font-black uppercase">Akan segera dibuka</h2>
+                <p class="mt-2 text-sm text-gray-200 max-w-md mx-auto">Asesmen daring untuk peserta akan segera dibuka. Pantau terus halaman ini dan informasi dari panitia.</p>
+            </div>
+
+            <div class="mt-7 flex flex-col sm:flex-row gap-3">
+                <a href="index.html" class="btn sm:flex-1 text-center rounded-2xl bg-brand-red hover:bg-red-600 border border-red-300/40 px-6 py-3.5 text-sm font-extrabold uppercase tracking-wide">Kembali ke Beranda</a>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="text-center text-[11px] text-gray-400 pb-5">
+        &copy; 2026 KPU Kabupaten Buton Selatan
+    </footer>
+
+</body>
+</html>
