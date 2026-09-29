@@ -3,96 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coming Soon | Sekolah Pemilu dan Demokrasi 2026</title>
-    
-    <!-- Memuat Tailwind CSS untuk styling -->
+    <title>Sekolah Pemilu dan Demokrasi  KPU Buton Selatan</title>
+    <link rel="icon" href="assets/Logo.png">
+
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Memuat Google Fonts (Montserrat untuk kesan elegan, kuat, dan modern) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&display=swap" rel="stylesheet">
-    
+
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['Montserrat', 'sans-serif'],
-                    },
-                    colors: {
-                        brand: {
-                            red: '#D91C1F', 
-                            dark: '#0a0a0a', 
-                            gray: '#1a1a1a'  
-                        }
-                    },
-                    animation: {
-                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'glow': 'glow 2s ease-in-out infinite alternate',
-                    },
-                    keyframes: {
-                        glow: {
-                            '0%': { textShadow: '0 0 10px rgba(217,28,31,0.5), 0 0 20px rgba(217,28,31,0.3)' },
-                            '100%': { textShadow: '0 0 20px rgba(217,28,31,0.8), 0 0 40px rgba(217,28,31,0.5)' }
-                        }
-                    }
+                    fontFamily: { sans: ['Montserrat', 'sans-serif'] },
+                    colors: { brand: { red: '#D91C1F', dark: '#0a0a0a', gray: '#1a1a1a' } },
+                    animation: { 'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite' }
                 }
             }
         }
     </script>
 
     <style>
-        .glow-bg {
-            background: radial-gradient(circle at 50% 30%, rgba(217, 28, 31, 0.15) 0%, rgba(10, 10, 10, 1) 50%);
+        /* Latar sama dengan halaman syarat: abu-abu arang dengan pendar merah */
+        .soft-bg {
+            background-color: #2b2b31;
+            background-image:
+                radial-gradient(circle at 50% 0%, rgba(217, 28, 31, 0.35) 0%, rgba(43, 43, 49, 0) 60%),
+                radial-gradient(circle at 100% 100%, rgba(255, 255, 255, 0.06) 0%, rgba(43, 43, 49, 0) 45%);
+            background-attachment: fixed;
         }
-        
-        body {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        body::-webkit-scrollbar {
-            display: none;
-        }
+        .title-wrap { container-type: inline-size; }
+        .text-title { font-size: 5.25cqw; display: inline-block; }
+        .text-subtitle { font-size: 6.6cqw; }
+        .text-slogan { font-size: clamp(8px, 2.5vw, 14px); }
 
-        /* Ukuran font dinamis yang aman dari posisi mentok */
-        .text-title { font-size: clamp(11px, 3.5vw, 38px); }
-        .text-subtitle { font-size: clamp(13px, 4.4vw, 40px); }
-        .text-slogan { font-size: clamp(8px, 2vw, 14px); }
-        
-        /* Ukuran coming soon disesuaikan agar pas di layar kecil tanpa terlalu lebar */
-        .text-coming { font-size: clamp(22px, 7.5vw, 96px); }
-        .text-soon { font-size: clamp(22px, 7.5vw, 96px); }
-
-        /* ===== Animasi tambahan ===== */
-        /* Muncul dari bawah secara berurutan saat halaman dibuka */
-        .reveal {
-            opacity: 0;
-            animation: fadeUp 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
-        }
+        .reveal { opacity: 0; animation: fadeUp 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) forwards; }
         @keyframes fadeUp {
             from { opacity: 0; transform: translateY(18px); }
             to   { opacity: 1; transform: translateY(0); }
         }
-
-        /* Logo melayang pelan */
         .float-soft { animation: floatSoft 5s ease-in-out infinite; }
-        @keyframes floatSoft {
-            0%, 100% { transform: translateY(0); }
-            50%      { transform: translateY(-6px); }
+        @keyframes floatSoft { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+        .shimmer-line { background-size: 200% 100%; animation: shimmer 3.5s linear infinite; }
+        @keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+
+        
+        /* Tombol menu bergaya kartu */
+        .menu-btn {
+            position: relative; display: flex; align-items: center;
+            padding: 12px 16px 12px 12px; border-radius: 18px;
+            background: linear-gradient(180deg, rgba(217,28,31,0.45) 0%, rgba(140,18,22,0.36) 100%);
+            border: 1px solid rgba(255,140,140,0.30);
+            box-shadow: 0 0 18px rgba(217,28,31,0.15), inset 0 1px 0 rgba(255,255,255,0.10);
+            transition: transform .25s ease, box-shadow .25s ease, background .25s ease;
+        }
+        .menu-btn:hover {
+            transform: translateY(-3px);
+            background: linear-gradient(180deg, rgba(217,28,31,0.60) 0%, rgba(150,20,24,0.48) 100%);
+            box-shadow: 0 0 30px rgba(217,28,31,0.35), inset 0 1px 0 rgba(255,255,255,0.14);
+        }
+        .menu-icon {
+            flex: none; width: 50px; height: 50px; border-radius: 13px; background: #fff;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .menu-label {
+            flex: 1; text-align: center; padding-right: 50px;
+            font-weight: 800; text-transform: uppercase; letter-spacing: .02em;
+            font-size: clamp(13px, 3.6vw, 16px);
         }
 
-        /* Kilau tipis yang lewat di garis pemisah */
-        .shimmer-line {
-            background-size: 200% 100%;
-            animation: shimmer 3.5s linear infinite;
+        
+        /* Hitung mundur */
+        .cd-box {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            min-width: 0; padding: 12px 6px; border-radius: 14px;
+            background: linear-gradient(180deg, rgba(217,28,31,0.45) 0%, rgba(140,18,22,0.36) 100%);
+            border: 1px solid rgba(255,140,140,0.30);
+            box-shadow: 0 0 18px rgba(217,28,31,0.15), inset 0 1px 0 rgba(255,255,255,0.10);
         }
-        @keyframes shimmer {
-            from { background-position: 200% 0; }
-            to   { background-position: -200% 0; }
-        }
+        .cd-num { font-weight: 900; font-size: clamp(24px, 7vw, 48px); line-height: 1; font-variant-numeric: tabular-nums; }
+        .cd-label { margin-top: 6px; font-size: clamp(9px, 2.2vw, 12px); font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: #d1d5db; }
+        @media (min-width: 640px) { .cd-box { padding: 18px 10px; } }
 
-        /* Hormati pengguna yang menonaktifkan animasi */
+        .btn:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+
         @media (prefers-reduced-motion: reduce) {
             .reveal { animation: none; opacity: 1; }
             .float-soft, .shimmer-line { animation: none; }
@@ -100,63 +94,154 @@
     </style>
 </head>
 
-<body class="bg-brand-dark text-white font-sans antialiased min-h-screen flex flex-col items-center justify-center glow-bg relative overflow-hidden selection:bg-brand-red selection:text-white">
+<body class="soft-bg text-white font-sans antialiased min-h-screen flex flex-col relative overflow-x-hidden selection:bg-brand-red selection:text-white">
 
-    <!-- Ornamen dekoratif latar belakang -->
+    <!-- Ornamen latar -->
     <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-brand-red to-transparent"></div>
-    <div class="absolute -top-32 -left-32 w-64 h-64 bg-brand-red rounded-full mix-blend-screen filter blur-[100px] opacity-30 animate-pulse-slow"></div>
-    <div class="absolute -bottom-32 -right-32 w-64 h-64 bg-white rounded-full mix-blend-screen filter blur-[100px] opacity-10 animate-pulse-slow" style="animation-delay: 2s;"></div>
+    <div class="absolute -top-32 -left-32 w-64 h-64 bg-brand-red rounded-full mix-blend-screen filter blur-[100px] opacity-30 animate-pulse-slow pointer-events-none"></div>
+    <div class="absolute -bottom-32 -right-32 w-64 h-64 bg-white rounded-full mix-blend-screen filter blur-[100px] opacity-10 animate-pulse-slow pointer-events-none" style="animation-delay: 2s;"></div>
 
-    <!-- Container Utama (mobile: naik lebih tinggi dengan -mt-28) -->
-    <main class="relative z-10 flex flex-col items-center justify-center w-full max-w-5xl px-6 md:px-12 mx-auto text-center h-full -mt-28 md:-mt-24 pb-20 md:pb-0">
-        <br><br><br><br>
-        <!-- Bagian Logo (jarak ke judul diperbesar: mb-10 / md:mb-16) -->
-        <div class="reveal mb-10 md:mb-16" style="animation-delay: 0.1s;">
-            <div class="float-soft drop-shadow-[0_10px_20px_rgba(217,28,31,0.3)] transform hover:scale-105 transition-transform duration-500">
-                <img src="assets/Logo.png" alt="Logo Sekolah Pemilu dan Demokrasi" class="mx-auto h-auto object-contain w-24 sm:w-28 md:w-36 lg:w-44">
+    <!-- Header: Logo KPU (kiri) + Logo Sekolah Pemilu & Demokrasi -->
+    <header class="relative z-20 w-full border-b border-white/10 bg-white/5 backdrop-blur mt-2">
+        <div class="px-6 md:px-12">
+            <div class="max-w-[760px] mx-auto py-3 flex items-center gap-3 md:gap-4">
+                <a href="https://www.kpu.go.id" target="_blank" rel="noopener" class="shrink-0">
+                    <img src="https://www.kpu.go.id/images/1627539868logo-kpu.png" alt="Logo KPU"
+                         class="h-10 md:h-14 w-auto object-contain">
+                </a>
+                <span class="h-8 md:h-10 w-px bg-white/25"></span>
+                <a href="index.html" class="shrink-0">
+                    <img src="assets/Logo.png" alt="Logo Sekolah Pemilu dan Demokrasi"
+                         class="h-10 md:h-14 w-auto object-contain">
+                </a>
+                <p class="ml-1 text-[11px] md:text-xs font-semibold leading-tight text-gray-200">
+                    Sekolah Pemilu &amp; Demokrasi<br>
+                    <span class="text-red-400 font-black">KPU Buton Selatan</span>
+                </p>
             </div>
         </div>
+    </header>
 
-        <!-- Judul Acara -->
-        <div class="reveal mb-2 w-full flex flex-col items-center justify-center" style="animation-delay: 0.3s;">
+    <!-- Konten utama -->
+    <main class="relative z-10 flex-1 flex flex-col items-center justify-start w-full max-w-5xl px-6 md:px-12 mx-auto text-center pt-6 md:pt-8 pb-10">
+
+        <!-- Judul -->
+        <div class="reveal title-wrap mb-2 w-full max-w-[760px] flex flex-col items-center" style="animation-delay: 0.3s;">
             <h1 class="text-title font-black tracking-tight uppercase whitespace-nowrap">
-                Sekolah Pemilu & Demokrasi
+                Sekolah Pemilu &amp; Demokrasi
             </h1>
             <h1 class="text-subtitle font-black tracking-tight uppercase whitespace-nowrap text-transparent bg-clip-text bg-gradient-to-r from-brand-red to-red-400 mt-1">
                 Buton Selatan 2026
             </h1>
         </div>
 
-        <!-- Subjudul / Slogan -->
-        <div class="reveal w-full flex items-center justify-center mt-2 mb-6" style="animation-delay: 0.5s;">
+        <!-- Slogan -->
+        <div class="reveal w-full flex items-center justify-center mt-3 mb-7" style="animation-delay: 0.5s;">
             <p class="text-slogan font-semibold tracking-[0.2em] md:tracking-[0.3em] text-gray-300 uppercase whitespace-nowrap">
-                Belajar <span class="text-brand-red mx-1 md:mx-2">•</span> 
-                Memahami <span class="text-brand-red mx-1 md:mx-2">•</span> 
+                Belajar <span class="text-brand-red mx-1 md:mx-2">•</span>
+                Memahami <span class="text-brand-red mx-1 md:mx-2">•</span>
                 Berpartisipasi
             </p>
         </div>
 
-        <!-- Teks Coming Soon Besar (Dioptimalkan agar mengecil secara aman) -->
-        <div class="reveal w-full flex flex-row items-center justify-center gap-2 md:gap-6 my-3 md:my-8 whitespace-nowrap" style="animation-delay: 0.7s;">
-            <h2 class="text-coming font-black tracking-widest italic animate-glow transform -skew-x-6">
-                <span class="text-transparent bg-clip-text bg-gradient-to-br from-white via-gray-200 to-gray-500">COMING</span>
-            </h2>
-            <h2 class="text-soon font-black tracking-widest italic animate-glow transform -skew-x-6">
-                <span class="text-transparent bg-clip-text bg-gradient-to-br from-brand-red via-red-600 to-red-900 drop-shadow-[0_0_10px_rgba(217,28,31,0.5)]">SOON</span>
-            </h2>
+        <!-- Info waktu + hitung mundur -->
+        <div class="reveal w-full flex flex-col items-center justify-center mb-8" style="animation-delay: 0.9s;">
+            <div class="shimmer-line h-px w-24 md:w-32 bg-gradient-to-r from-transparent via-brand-red to-transparent mb-0 opacity-70"></div>
+
+            <div id="countdown" class="mt-4 w-full max-w-[760px] grid grid-cols-4 gap-2 sm:gap-4" role="timer" aria-live="off">
+                <div class="cd-box"><span class="cd-num" id="cd-days">00</span><span class="cd-label">Hari</span></div>
+                <div class="cd-box"><span class="cd-num" id="cd-hours">00</span><span class="cd-label">Jam</span></div>
+                <div class="cd-box"><span class="cd-num" id="cd-minutes">00</span><span class="cd-label">Menit</span></div>
+                <div class="cd-box"><span class="cd-num" id="cd-seconds">00</span><span class="cd-label">Detik</span></div>
+            </div>
+            <p id="cd-done" class="hidden mt-5 text-brand-red font-black uppercase tracking-widest text-sm md:text-lg">Kegiatan telah dimulai</p>
+
+            <div class="shimmer-line h-px w-24 md:w-32 bg-gradient-to-r from-transparent via-brand-red to-transparent mt-5 opacity-70"></div>
         </div>
 
-        <!-- Pesan Stay Tuned -->
-        <div class="reveal w-full flex flex-col items-center justify-center mt-3" style="animation-delay: 0.9s;">
-            <div class="shimmer-line h-px w-24 md:w-32 bg-gradient-to-r from-transparent via-brand-red to-transparent mb-4 opacity-70"></div>
-            <p class="text-xs md:text-base lg:text-lg font-medium tracking-[0.1em] md:tracking-[0.15em] text-gray-300 uppercase whitespace-nowrap">
-                Stay tuned on 
-                <span class="text-brand-red font-black ml-1 md:ml-2 drop-shadow-[0_0_8px_rgba(217,28,31,0.5)]">October 2026</span>
-            </p>
-            <div class="shimmer-line h-px w-24 md:w-32 bg-gradient-to-r from-transparent via-brand-red to-transparent mt-4 opacity-70"></div>
+        <!-- Tombol -->
+        <div class="reveal w-full max-w-[760px] flex flex-col gap-3" style="animation-delay: 0.7s;">
+            <a href="syarat.html" class="menu-btn btn">
+                <span class="menu-icon text-brand-red">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13l2 2 4-4"/></svg>
+                </span>
+                <span class="menu-label">Syarat Peserta</span>
+            </a>
+            <a href="daftar.html" class="menu-btn btn">
+                <span class="menu-icon text-brand-red">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.85 0 0 1 4 4L8 20l-5 1 1-5z"/><path d="M3 23h18" transform="translate(0 -1)"/></svg>
+                </span>
+                <span class="menu-label">Pendaftaran Peserta</span>
+            </a>
+            <a href="asesmen.html" class="menu-btn btn">
+                <span class="menu-icon text-brand-red">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1"/><path d="M9 12l2 2 4-4"/><path d="M9 18h6"/></svg>
+                </span>
+                <span class="menu-label">Asesmen</span>
+            </a>
+            <a href="pengumuman.html" class="menu-btn btn">
+                <span class="menu-icon text-brand-red">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11v2a1 1 0 0 0 1 1h3l7 4V6L7 10H4a1 1 0 0 0-1 1z"/><path d="M17 9a4 4 0 0 1 0 6"/><path d="M19.5 6.5a8 8 0 0 1 0 11"/></svg>
+                </span>
+                <span class="menu-label">Pengumuman Peserta</span>
+            </a>
+            <a href="sertifikat.html" class="menu-btn btn">
+                <span class="menu-icon text-brand-red">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M7 8h10M7 12h5"/><circle cx="16" cy="16" r="2.5"/><path d="M14.8 18.3L14 22l2-1 2 1-.8-3.7"/></svg>
+                </span>
+                <span class="menu-label">Sertifikat</span>
+            </a>
         </div>
+
 
     </main>
 
+    <footer class="relative z-10 text-center text-[11px] text-gray-400 pb-5">
+        &copy; 2026 KPU Kabupaten Buton Selatan
+    </footer>
+
+
+    <script>
+        // Target: 10 Oktober 2026, 00:00 WITA (UTC+8)
+        (function () {
+            var target = new Date('2026-10-10T00:00:00+08:00').getTime();
+            var el = {
+                d: document.getElementById('cd-days'), h: document.getElementById('cd-hours'),
+                m: document.getElementById('cd-minutes'), s: document.getElementById('cd-seconds')
+            };
+            var box = document.getElementById('countdown'), done = document.getElementById('cd-done');
+            function pad(n) { return String(n).padStart(2, '0'); }
+            function tick() {
+                var diff = target - Date.now();
+                if (diff <= 0) { box.style.display = 'none'; done.classList.remove('hidden'); return false; }
+                var sec = Math.floor(diff / 1000);
+                el.d.textContent = pad(Math.floor(sec / 86400));
+                el.h.textContent = pad(Math.floor(sec % 86400 / 3600));
+                el.m.textContent = pad(Math.floor(sec % 3600 / 60));
+                el.s.textContent = pad(sec % 60);
+                return true;
+            }
+            if (tick()) { var t = setInterval(function () { if (!tick()) clearInterval(t); }, 1000); }
+        })();
+    </script>
+
+    <script>
+        // Sesuaikan lebar tulisan judul agar sama persis dengan lebar tombol & hitung mundur
+        (function () {
+            var h = document.querySelector('.text-title');
+            if (!h) return;
+            function fit() {
+                var wrap = h.parentElement;
+                h.style.fontSize = '100px';
+                var w = h.getBoundingClientRect().width;
+                var target = wrap.clientWidth;
+                if (w > 0 && target > 0) h.style.fontSize = (100 * target / w) + 'px';
+            }
+            fit();
+            if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+            window.addEventListener('resize', fit);
+            window.addEventListener('load', fit);
+        })();
+    </script>
 </body>
 </html>
