@@ -32,18 +32,79 @@
         }
 
         .form-panel {
-            border-radius: 18px; padding: 28px 20px;
+            border-radius: 18px; padding: 20px;
             background: linear-gradient(180deg, rgba(217,28,31,0.22) 0%, rgba(140,18,22,0.16) 100%);
             border: 1px solid rgba(255,140,140,0.25);
             box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
         }
-        @media (min-width: 640px) { .form-panel { padding: 40px 28px; } }
+        @media (min-width: 640px) { .form-panel { padding: 28px; } }
+
+        .field-label { display: block; margin-bottom: 6px; font-size: 13px; font-weight: 700; color: #f3f4f6; }
+        .field-hint  { margin-top: 5px; font-size: 12px; color: #d1d5db; }
+        .field-error { margin-top: 5px; font-size: 12px; font-weight: 600; color: #fecaca; }
+
+        .input {
+            width: 100%; border-radius: 12px; padding: 12px 14px; font-size: 15px; color: #fff;
+            background: rgba(0,0,0,0.28); border: 1px solid rgba(255,255,255,0.22);
+            transition: border-color .2s ease, background .2s ease;
+        }
+        .input::placeholder { color: #9ca3af; }
+        .input:focus { outline: none; border-color: #fff; background: rgba(0,0,0,0.38); box-shadow: 0 0 0 3px rgba(255,255,255,0.18); }
+        .input[aria-invalid="true"] { border-color: #f87171; }
+        textarea.input { resize: vertical; min-height: 150px; line-height: 1.5; }
+
+        /* Peringatan pindah tab */
+        .warn-overlay { position: fixed; inset: 0; z-index: 50; display: none; align-items: center; justify-content: center; padding: 20px; background: rgba(0,0,0,.75); }
+        .warn-overlay.show { display: flex; }
+        .warn-box { max-width: 420px; width: 100%; text-align: center; border-radius: 18px; padding: 28px 22px; background: #2b2b31; border: 1px solid rgba(255,140,140,.45); box-shadow: 0 0 40px rgba(217,28,31,.35); }
+
+        /* Hitung mundur pembukaan asesmen */
+        .cd-box { display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 0; padding: 12px 6px; border-radius: 14px;
+            background: linear-gradient(180deg, rgba(217,28,31,0.45) 0%, rgba(140,18,22,0.36) 100%); border: 1px solid rgba(255,140,140,0.30); box-shadow: 0 0 18px rgba(217,28,31,0.15), inset 0 1px 0 rgba(255,255,255,0.10); }
+        .cd-num { font-weight: 900; font-size: clamp(24px, 7vw, 44px); line-height: 1; font-variant-numeric: tabular-nums; }
+        .cd-label { margin-top: 6px; font-size: clamp(9px, 2.2vw, 12px); font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: #d1d5db; }
 
         .btn { transition: background .2s ease, transform .2s ease; }
-        .btn:hover { transform: translateY(-2px); }
+        .btn:hover:not(:disabled) { transform: translateY(-2px); }
+        .btn:disabled { opacity: .65; cursor: wait; }
         .btn:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
 
-        @media (prefers-reduced-motion: reduce) { .btn:hover { transform: none; } }
+        /* Soal */
+        .part-title { margin: 28px 0 4px; font-weight: 900; text-transform: uppercase; letter-spacing: .02em; font-size: 15px; color: #fca5a5; }
+        .sub-title { margin: 20px 0 2px; font-weight: 700; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: #d1d5db; }
+        .q-card {
+            margin-top: 12px; padding: 16px; border-radius: 16px;
+            background: rgba(0,0,0,0.22); border: 1px solid rgba(255,255,255,0.14);
+        }
+        .q-card[aria-invalid="true"] { border-color: #f87171; }
+        .q-text { font-weight: 700; font-size: 15px; line-height: 1.5; }
+        .opt {
+            display: flex; gap: 12px; align-items: flex-start; cursor: pointer;
+            margin-top: 8px; padding: 10px 12px; border-radius: 12px;
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.18);
+            transition: background .15s ease, border-color .15s ease;
+        }
+        .opt:hover { background: rgba(255,255,255,0.10); }
+        .opt input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+        .opt-key {
+            flex: none; width: 26px; height: 26px; border-radius: 8px; font-size: 13px; font-weight: 800;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(255,255,255,0.14);
+        }
+        .opt-text { font-size: 14px; line-height: 1.5; padding-top: 2px; }
+        .opt:has(input:checked) { background: rgba(217,28,31,0.55); border-color: #fff; }
+        .opt:has(input:checked) .opt-key { background: #fff; color: #D91C1F; }
+        .opt:has(input:focus-visible) { outline: 3px solid #fff; outline-offset: 2px; }
+
+        .timer-bar {
+            position: sticky; top: 0; z-index: 30; margin: 0 -4px 16px; padding: 10px 16px; border-radius: 14px;
+            display: flex; align-items: center; justify-content: space-between; gap: 12px;
+            background: rgba(30,30,36,0.92); backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,0.2);
+        }
+        .timer-num { font-weight: 900; font-size: 22px; font-variant-numeric: tabular-nums; }
+        .timer-bar.warn .timer-num { color: #f87171; }
+
+        @media (prefers-reduced-motion: reduce) { .btn:hover:not(:disabled) { transform: none; } }
     </style>
 </head>
 
@@ -77,19 +138,74 @@
         <div class="max-w-[760px] mx-auto">
 
             <div class="text-center">
-                <h1 class="font-black uppercase tracking-tight text-2xl sm:text-3xl md:text-4xl">Asesmen</h1>
+                <h1 class="font-black uppercase tracking-tight text-2xl sm:text-3xl md:text-4xl">Asesmen Seleksi Peserta</h1>
+                <p class="mt-2 text-sm text-gray-300">Sekolah Pemilu dan Demokrasi 2026 &middot; KPU Kabupaten Buton Selatan</p>
             </div>
 
-            <div class="form-panel mt-7 text-center">
+            <!-- Petunjuk + verifikasi peserta -->
+            <section id="tunggu" class="form-panel mt-7 text-center">
+                <h2 class="text-xl sm:text-2xl font-black uppercase">Asesmen akan dibuka</h2>
+                <p class="mt-2 text-sm text-gray-200">Asesmen dibuka pada <strong>7 Oktober 2026, pukul 10.00 WITA</strong>. Kembali ke halaman ini saat hitung mundur selesai.</p>
+                <div class="mt-5 grid grid-cols-4 gap-2 sm:gap-4" role="timer" aria-live="off">
+                    <div class="cd-box"><span class="cd-num" id="cd-d">00</span><span class="cd-label">Hari</span></div>
+                    <div class="cd-box"><span class="cd-num" id="cd-h">00</span><span class="cd-label">Jam</span></div>
+                    <div class="cd-box"><span class="cd-num" id="cd-m">00</span><span class="cd-label">Menit</span></div>
+                    <div class="cd-box"><span class="cd-num" id="cd-s">00</span><span class="cd-label">Detik</span></div>
+                </div>
+            </section>
+
+            <section id="awal" class="form-panel mt-7 hidden">
+                <h2 class="text-lg font-black uppercase">Petunjuk Umum</h2>
+                <ol class="mt-3 list-decimal pl-5 flex flex-col gap-1.5 text-sm text-gray-100">
+                    <li>Bacalah setiap soal dengan teliti.</li>
+                    <li>Pilih satu jawaban yang paling tepat.</li>
+                    <li>Setiap soal pilihan ganda memiliki satu jawaban yang benar.</li>
+                    <li>Kerjakan secara mandiri.</li>
+                    <li>Jangan berpindah tab atau aplikasi selama asesmen. Setelah 3 kali peringatan, asesmen dianggap selesai dan jawaban dikirim otomatis.</li>
+                    <li>Waktu pengerjaan: 30 menit.</li>
+                    <li>Tidak diperkenankan menggunakan sumber informasi lain selama asesmen berlangsung.</li>
+                </ol>
+                <p class="mt-3 text-xs text-gray-300">
+                    Asesmen terdiri dari 32 soal: 30 pilihan ganda dan 2 soal uraian. Waktu dihitung sejak tombol &ldquo;Mulai Asesmen&rdquo; ditekan.
+                    Jawaban dikirim sekali saja dan otomatis terkirim saat waktu habis. Jangan menutup atau memuat ulang halaman setelah dimulai.
+                </p>
+
+                <hr class="my-5 border-white/15">
+
+                <p class="text-sm text-gray-100">Masukkan e-mail yang kamu gunakan saat mendaftar.</p>
+                <div class="mt-4 flex flex-col gap-4">
+                    <div>
+                        <label for="email" class="field-label">E-mail</label>
+                        <input class="input" type="email" id="email" autocomplete="email" inputmode="email" placeholder="nama@email.com">
+                    </div>
+                    <p class="field-error" id="err-awal" role="alert"></p>
+                    <button type="button" id="btn-mulai" class="btn rounded-2xl bg-brand-red hover:bg-red-600 border border-red-300/40 px-6 py-3.5 text-sm font-extrabold uppercase tracking-wide">Mulai Asesmen</button>
+                </div>
+            </section>
+
+            <!-- Soal (satu bagian) -->
+            <form id="form-asesmen" class="hidden mt-7" novalidate>
+                <div class="timer-bar" id="timer-bar">
+                    <span class="text-xs font-semibold text-gray-200" id="peserta"></span>
+                    <span class="flex items-baseline gap-2">
+                        <span class="text-[11px] uppercase tracking-widest text-gray-300">Sisa waktu</span>
+                        <span class="timer-num" id="timer" role="timer" aria-live="off">30:00</span>
+                    </span>
+                </div>
+
+                <div class="form-panel" id="soal"></div>
+
+                <p class="field-error text-center mt-4" id="err-form" role="alert"></p>
+                <button type="submit" id="btn-kirim" class="btn mt-3 w-full rounded-2xl bg-brand-red hover:bg-red-600 border border-red-300/40 px-6 py-3.5 text-sm font-extrabold uppercase tracking-wide">Kirim Jawaban</button>
+            </form>
+
+            <!-- Setelah terkirim -->
+            <div id="sukses" class="form-panel mt-7 text-center hidden" tabindex="-1">
                 <span class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-brand-red" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1"/><path d="M9 12l2 2 4-4"/><path d="M9 18h6"/></svg>
+                    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
                 </span>
-                <h2 class="mt-4 text-xl sm:text-2xl font-black uppercase">Akan segera dibuka</h2>
-                <p class="mt-2 text-sm text-gray-200 max-w-md mx-auto">Asesmen daring untuk peserta akan segera dibuka. Pantau terus halaman ini dan informasi dari panitia.</p>
-            </div>
-
-            <div class="mt-7 flex flex-col sm:flex-row gap-3">
-                <a href="index.html" class="btn sm:flex-1 text-center rounded-2xl bg-brand-red hover:bg-red-600 border border-red-300/40 px-6 py-3.5 text-sm font-extrabold uppercase tracking-wide">Kembali ke Beranda</a>
+                <h2 class="mt-4 text-xl font-black uppercase">Jawaban terkirim</h2>
+                <p class="mt-2 text-sm text-gray-200">Terima kasih, asesmen kamu sudah kami terima. Pantau WhatsApp dan e-mail yang kamu daftarkan untuk informasi berikutnya.</p>
             </div>
 
         </div>
@@ -99,5 +215,249 @@
         &copy; 2026 KPU Kabupaten Buton Selatan
     </footer>
 
+    <div id="warn" class="warn-overlay" role="alertdialog" aria-modal="true" aria-labelledby="warn-judul">
+        <div class="warn-box">
+            <h2 id="warn-judul" class="text-xl font-black uppercase text-red-400">Peringatan</h2>
+            <p id="warn-teks" class="mt-3 text-sm text-gray-100"></p>
+            <button type="button" id="warn-ok" class="btn mt-5 w-full rounded-2xl bg-brand-red hover:bg-red-600 border border-red-300/40 px-6 py-3 text-sm font-extrabold uppercase tracking-wide">Saya mengerti</button>
+        </div>
+    </div>
+
+    <script>
+        // Asesmen dibuka: 7 Oktober 2026, 10.00 WITA (UTC+8)
+        (function () {
+            var target = new Date('2026-10-07T10:00:00+08:00').getTime();
+            var $ = function (id) { return document.getElementById(id); };
+            function pad(n) { return String(n).padStart(2, '0'); }
+            function tick() {
+                var diff = target - Date.now();
+                if (diff <= 0) { $('tunggu').classList.add('hidden'); $('awal').classList.remove('hidden'); return false; }
+                var sec = Math.floor(diff / 1000);
+                $('cd-d').textContent = pad(Math.floor(sec / 86400));
+                $('cd-h').textContent = pad(Math.floor(sec % 86400 / 3600));
+                $('cd-m').textContent = pad(Math.floor(sec % 3600 / 60));
+                $('cd-s').textContent = pad(sec % 60);
+                return true;
+            }
+            if (tick()) { var t = setInterval(function () { if (!tick()) clearInterval(t); }, 1000); }
+        })();
+    </script>
+
+    <script>
+        (function () {
+            var ENDPOINT = 'https://script.google.com/macros/s/AKfycbw9NaeoKLLeBGTgN88Spt5InjOSeUrPYuqdC_xbByw36RJxklDpbFEh7PcnFoq1EeEHfA/exec';
+            var DURASI = 30 * 60; // detik
+            var MAX_KATA = 200;
+
+            var SOAL = [], URAIAN = []; // diisi dari server setelah e-mail diverifikasi
+
+            var BAGIAN = {
+                1:  { t: 'Bagian A \u2014 Pengetahuan Dasar', s: 'Pilihan ganda' },
+                21: { t: 'Bagian B \u2014 Pemahaman', s: 'Pilih jawaban yang paling tepat.' },
+                26: { t: 'Bagian C \u2014 Studi Kasus', s: 'Pilih jawaban yang paling tepat.' }
+            };
+
+            function $(id) { return document.getElementById(id); }
+            function el(tag, cls, text) {
+                var e = document.createElement(tag);
+                if (cls) e.className = cls;
+                if (text != null) e.textContent = text;
+                return e;
+            }
+            function kata(s) { var m = s.trim().match(/\S+/g); return m ? m : []; }
+
+            /* ---------- Bangun soal ---------- */
+            var soalBox = $('soal');
+            var sudahDibangun = false;
+            function judul(t, s) {
+                soalBox.appendChild(el('h3', 'part-title', t));
+                if (s) soalBox.appendChild(el('p', 'text-xs text-gray-300', s));
+            }
+            function bangun() {
+            if (sudahDibangun) return; sudahDibangun = true;
+            judul(BAGIAN[1].t, BAGIAN[1].s); delete BAGIAN[1]; // judul Bagian A tampil sebelum Materi A
+            SOAL.forEach(function (it) {
+                if (it.sh) { soalBox.appendChild(el('h4', 'sub-title', it.sh)); return; }
+                if (BAGIAN[it.n]) judul(BAGIAN[it.n].t, BAGIAN[it.n].s);
+                var card = el('fieldset', 'q-card');
+                card.id = 'card-' + it.n;
+                var lg = el('legend', 'sr-only', 'Soal ' + it.n);
+                card.appendChild(lg);
+                card.appendChild(el('p', 'q-text', it.n + '. ' + it.q));
+                ['A', 'B', 'C', 'D'].forEach(function (k) {
+                    var lab = el('label', 'opt');
+                    var r = document.createElement('input');
+                    r.type = 'radio'; r.name = 'q' + it.n; r.value = k;
+                    r.addEventListener('change', function () { card.removeAttribute('aria-invalid'); });
+                    lab.appendChild(r);
+                    lab.appendChild(el('span', 'opt-key', k));
+                    lab.appendChild(el('span', 'opt-text', it.o[k]));
+                    card.appendChild(lab);
+                });
+                soalBox.appendChild(card);
+            });
+            URAIAN.forEach(function (u) {
+                judul(u.bagian);
+                var card = el('div', 'q-card');
+                card.id = 'card-' + u.n;
+                card.appendChild(el('p', 'q-text', u.n + '. ' + u.q));
+                card.appendChild(el('p', 'field-hint', u.hint));
+                var ta = document.createElement('textarea');
+                ta.className = 'input mt-3'; ta.id = u.id;
+                ta.setAttribute('aria-label', 'Jawaban soal ' + u.n);
+                var cnt = el('p', 'field-hint text-right', '0 / ' + MAX_KATA + ' kata');
+                ta.addEventListener('input', function () {
+                    var n = kata(ta.value).length;
+                    cnt.textContent = n + ' / ' + MAX_KATA + ' kata';
+                    cnt.style.color = n > MAX_KATA ? '#fecaca' : '';
+                    card.removeAttribute('aria-invalid');
+                });
+                card.appendChild(ta);
+                card.appendChild(cnt);
+                soalBox.appendChild(card);
+            });
+            }
+
+            /* ---------- Kirim ke server ---------- */
+            function kirim(payload) {
+                return fetch(ENDPOINT, { method: 'POST', body: JSON.stringify(payload) })
+                    .then(function (r) { return r.json(); });
+            }
+
+            var ident = { email: '' };
+            var timerId = null, endAt = 0, selesai = false, waktuHabis = false, terkirim = false;
+            var MAX_PELANGGARAN = 3, pelanggaran = 0, diluar = false;
+
+            /* ---------- Mulai ---------- */
+            $('btn-mulai').addEventListener('click', function () {
+                var btn = this, err = $('err-awal');
+                err.textContent = '';
+                var email = $('email').value.trim();
+                if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { err.textContent = 'Isi e-mail yang valid.'; $('email').focus(); return; }
+
+                btn.disabled = true; btn.textContent = 'Memeriksa...';
+                kirim({ aksi: 'cek', email: email })
+                    .then(function (res) {
+                        if (!res.ok) { err.textContent = res.message || 'Data tidak ditemukan.'; return; }
+                        if (!res.soal || !res.uraian) { err.textContent = 'Soal gagal dimuat. Coba lagi.'; return; }
+                        SOAL = res.soal; URAIAN = res.uraian;
+                        bangun();
+                        ident.email = email;
+                        $('peserta').textContent = res.nama || '';
+                        $('awal').classList.add('hidden');
+                        $('form-asesmen').classList.remove('hidden');
+                        window.scrollTo({ top: 0 });
+                        mulaiTimer();
+                    })
+                    .catch(function () { err.textContent = 'Gagal terhubung. Periksa koneksi internet lalu coba lagi.'; })
+                    .then(function () { btn.disabled = false; btn.textContent = 'Mulai Asesmen'; });
+            });
+
+            /* ---------- Timer ---------- */
+            function tampil() {
+                var s = Math.max(0, Math.round((endAt - Date.now()) / 1000));
+                var m = Math.floor(s / 60), d = s % 60;
+                $('timer').textContent = String(m).padStart(2, '0') + ':' + String(d).padStart(2, '0');
+                $('timer-bar').classList.toggle('warn', s <= 300);
+                return s;
+            }
+            function mulaiTimer() {
+                endAt = Date.now() + DURASI * 1000;
+                tampil();
+                timerId = setInterval(function () {
+                    if (tampil() <= 0) {
+                        clearInterval(timerId);
+                        waktuHabis = true;
+                        $('err-form').textContent = 'Waktu habis. Jawaban dikirim otomatis.';
+                        proses();
+                    }
+                }, 1000);
+            }
+
+            /* ---------- Validasi & kirim jawaban ---------- */
+            function ambil() {
+                var jawaban = [];
+                for (var i = 1; i <= 30; i++) {
+                    var c = document.querySelector('input[name="q' + i + '"]:checked');
+                    jawaban.push(c ? c.value : '');
+                }
+                function batas(s) { return kata(s).slice(0, MAX_KATA).join(' '); }
+                return {
+                    aksi: 'asesmen', email: ident.email, jawaban: jawaban,
+                    motivasi: waktuHabis ? batas($('motivasi').value) : $('motivasi').value.trim(),
+                    kontribusi: waktuHabis ? batas($('kontribusi').value) : $('kontribusi').value.trim()
+                };
+            }
+            function validasi(p) {
+                var first = null;
+                p.jawaban.forEach(function (j, i) {
+                    var c = $('card-' + (i + 1));
+                    if (!j) { c.setAttribute('aria-invalid', 'true'); if (!first) first = c; }
+                });
+                [['motivasi', 31], ['kontribusi', 32]].forEach(function (x) {
+                    var n = kata(p[x[0]]).length, c = $('card-' + x[1]);
+                    if (n === 0 || n > MAX_KATA) { c.setAttribute('aria-invalid', 'true'); if (!first) first = c; }
+                });
+                if (first) {
+                    first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    $('err-form').textContent = 'Masih ada soal yang belum dijawab, atau uraian kosong / lebih dari ' + MAX_KATA + ' kata.';
+                    return false;
+                }
+                return true;
+            }
+            function proses() {
+                if (terkirim) return;
+                var btn = $('btn-kirim');
+                var p = ambil();
+                if (!waktuHabis) { $('err-form').textContent = ''; if (!validasi(p)) return; }
+                btn.disabled = true; btn.textContent = 'Mengirim...';
+                kirim(p).then(function (res) {
+                    if (!res.ok && !res.duplicate) { throw new Error(res.message || 'Pengiriman gagal.'); }
+                    terkirim = true;
+                    clearInterval(timerId);
+                    $('warn').classList.remove('show');
+                    $('form-asesmen').classList.add('hidden');
+                    $('sukses').classList.remove('hidden');
+                    $('sukses').focus();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }).catch(function (e) {
+                    var msg = (e && e.message && e.message !== 'Failed to fetch') ? e.message : 'Jawaban gagal terkirim. Periksa koneksi internet lalu tekan Kirim Jawaban lagi.';
+                    $('err-form').textContent = msg;
+                    btn.disabled = false; btn.textContent = 'Kirim Jawaban';
+                });
+            }
+            $('form-asesmen').addEventListener('submit', function (e) { e.preventDefault(); proses(); });
+
+            /* ---------- Pengawas pindah tab ---------- */
+            function pelanggar() {
+                if (!timerId || terkirim || waktuHabis || diluar) return;
+                diluar = true;
+                pelanggaran++;
+                if (pelanggaran >= MAX_PELANGGARAN) {
+                    waktuHabis = true; // kirim apa adanya, tanpa validasi
+                    clearInterval(timerId);
+                    $('err-form').textContent = 'Kamu meninggalkan halaman asesmen sebanyak ' + MAX_PELANGGARAN + ' kali. Asesmen dianggap selesai dan jawaban dikirim otomatis.';
+                    proses();
+                }
+            }
+            function kembali() {
+                if (!diluar) return;
+                diluar = false;
+                if (!timerId || terkirim || waktuHabis) return;
+                $('warn-teks').textContent = 'Kamu terdeteksi meninggalkan halaman asesmen (' + pelanggaran + ' dari ' + MAX_PELANGGARAN + ' peringatan). ' +
+                    (pelanggaran === MAX_PELANGGARAN - 1 ? 'Satu kali lagi, asesmen akan dianggap selesai dan jawaban dikirim otomatis.' : 'Jika mencapai ' + MAX_PELANGGARAN + ' kali, asesmen dianggap selesai dan jawaban dikirim otomatis.');
+                $('warn').classList.add('show');
+                $('warn-ok').focus();
+            }
+            $('warn-ok').addEventListener('click', function () { $('warn').classList.remove('show'); });
+            document.addEventListener('visibilitychange', function () { document.hidden ? pelanggar() : kembali(); });
+            window.addEventListener('blur', pelanggar);
+            window.addEventListener('focus', kembali);
+
+            window.addEventListener('beforeunload', function (e) {
+                if (timerId && !terkirim) { e.preventDefault(); e.returnValue = ''; }
+            });
+        })();
+    </script>
 </body>
 </html>
