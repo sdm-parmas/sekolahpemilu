@@ -145,13 +145,18 @@
             <!-- Petunjuk + verifikasi peserta -->
             <section id="tunggu" class="form-panel mt-7 text-center">
                 <h2 class="text-xl sm:text-2xl font-black uppercase">Asesmen akan dibuka</h2>
-                <p class="mt-2 text-sm text-gray-200">Asesmen dibuka pada <strong>7 Oktober 2026, pukul 10.00 WITA</strong>. Kembali ke halaman ini saat hitung mundur selesai.</p>
+                <p class="mt-2 text-sm text-gray-200">Asesmen dibuka pada <strong>7 Oktober 2026, pukul 10.00 &ndash; 12.00 WITA</strong>. Kembali ke halaman ini saat hitung mundur selesai.</p>
                 <div class="mt-5 grid grid-cols-4 gap-2 sm:gap-4" role="timer" aria-live="off">
                     <div class="cd-box"><span class="cd-num" id="cd-d">00</span><span class="cd-label">Hari</span></div>
                     <div class="cd-box"><span class="cd-num" id="cd-h">00</span><span class="cd-label">Jam</span></div>
                     <div class="cd-box"><span class="cd-num" id="cd-m">00</span><span class="cd-label">Menit</span></div>
                     <div class="cd-box"><span class="cd-num" id="cd-s">00</span><span class="cd-label">Detik</span></div>
                 </div>
+            </section>
+
+            <section id="ditutup" class="form-panel mt-7 text-center hidden">
+                <h2 class="text-xl sm:text-2xl font-black uppercase">Asesmen telah ditutup</h2>
+                <p class="mt-2 text-sm text-gray-200 max-w-md mx-auto">Asesmen dibuka pada 7 Oktober 2026 pukul 10.00 &ndash; 12.00 WITA dan kini sudah berakhir. Pantau halaman Pengumuman Peserta untuk informasi selanjutnya.</p>
             </section>
 
             <section id="awal" class="form-panel mt-7 hidden">
@@ -224,19 +229,34 @@
     </div>
 
     <script>
-        // Asesmen dibuka: 7 Oktober 2026, 10.00 WITA (UTC+8)
+        // Asesmen dibuka 7 Oktober 2026, 10.00 - 12.00 WITA (UTC+8)
+        var BUKA_ASESMEN = new Date('2026-10-07T10:00:00+08:00').getTime();
+        var TUTUP_ASESMEN = new Date('2026-10-07T12:00:00+08:00').getTime();
         (function () {
-            var target = new Date('2026-10-07T10:00:00+08:00').getTime();
             var $ = function (id) { return document.getElementById(id); };
             function pad(n) { return String(n).padStart(2, '0'); }
+            function tampil(id) {
+                ['tunggu', 'awal', 'ditutup'].forEach(function (k) { $(k).classList.toggle('hidden', k !== id); });
+            }
             function tick() {
-                var diff = target - Date.now();
-                if (diff <= 0) { $('tunggu').classList.add('hidden'); $('awal').classList.remove('hidden'); return false; }
-                var sec = Math.floor(diff / 1000);
+                var now = Date.now();
+                if (now >= TUTUP_ASESMEN) {
+                    // Jangan ganggu peserta yang sedang mengerjakan
+                    if (!$('form-asesmen').classList.contains('hidden') || !$('sukses').classList.contains('hidden')) {
+                        ['tunggu', 'awal', 'ditutup'].forEach(function (k) { $(k).classList.add('hidden'); });
+                    } else { tampil('ditutup'); }
+                    return false;
+                }
+                if (now >= BUKA_ASESMEN) {
+                    if (!$('form-asesmen').classList.contains('hidden')) return true;
+                    tampil('awal'); return true;
+                }
+                var sec = Math.floor((BUKA_ASESMEN - now) / 1000);
                 $('cd-d').textContent = pad(Math.floor(sec / 86400));
                 $('cd-h').textContent = pad(Math.floor(sec % 86400 / 3600));
                 $('cd-m').textContent = pad(Math.floor(sec % 3600 / 60));
                 $('cd-s').textContent = pad(sec % 60);
+                tampil('tunggu');
                 return true;
             }
             if (tick()) { var t = setInterval(function () { if (!tick()) clearInterval(t); }, 1000); }
@@ -362,7 +382,7 @@
                 return s;
             }
             function mulaiTimer() {
-                endAt = Date.now() + DURASI * 1000;
+                endAt = Math.min(Date.now() + DURASI * 1000, TUTUP_ASESMEN);
                 tampil();
                 timerId = setInterval(function () {
                     if (tampil() <= 0) {
