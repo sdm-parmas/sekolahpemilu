@@ -58,12 +58,6 @@
         .warn-overlay.show { display: flex; }
         .warn-box { max-width: 420px; width: 100%; text-align: center; border-radius: 18px; padding: 28px 22px; background: #2b2b31; border: 1px solid rgba(255,140,140,.45); box-shadow: 0 0 40px rgba(217,28,31,.35); }
 
-        /* Hitung mundur pembukaan asesmen */
-        .cd-box { display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 0; padding: 12px 6px; border-radius: 14px;
-            background: linear-gradient(180deg, rgba(217,28,31,0.45) 0%, rgba(140,18,22,0.36) 100%); border: 1px solid rgba(255,140,140,0.30); box-shadow: 0 0 18px rgba(217,28,31,0.15), inset 0 1px 0 rgba(255,255,255,0.10); }
-        .cd-num { font-weight: 900; font-size: clamp(24px, 7vw, 44px); line-height: 1; font-variant-numeric: tabular-nums; }
-        .cd-label { margin-top: 6px; font-size: clamp(9px, 2.2vw, 12px); font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: #d1d5db; }
-
         .btn { transition: background .2s ease, transform .2s ease; }
         .btn:hover:not(:disabled) { transform: translateY(-2px); }
         .btn:disabled { opacity: .65; cursor: wait; }
@@ -143,23 +137,7 @@
             </div>
 
             <!-- Petunjuk + verifikasi peserta -->
-            <section id="tunggu" class="form-panel mt-7 text-center">
-                <h2 class="text-xl sm:text-2xl font-black uppercase">Asesmen akan dibuka</h2>
-                <p class="mt-2 text-sm text-gray-200">Asesmen dibuka pada <strong>7 Oktober 2026, pukul 10.00 &ndash; 12.00 WITA</strong>. Kembali ke halaman ini saat hitung mundur selesai.</p>
-                <div class="mt-5 grid grid-cols-4 gap-2 sm:gap-4" role="timer" aria-live="off">
-                    <div class="cd-box"><span class="cd-num" id="cd-d">00</span><span class="cd-label">Hari</span></div>
-                    <div class="cd-box"><span class="cd-num" id="cd-h">00</span><span class="cd-label">Jam</span></div>
-                    <div class="cd-box"><span class="cd-num" id="cd-m">00</span><span class="cd-label">Menit</span></div>
-                    <div class="cd-box"><span class="cd-num" id="cd-s">00</span><span class="cd-label">Detik</span></div>
-                </div>
-            </section>
-
-            <section id="ditutup" class="form-panel mt-7 text-center hidden">
-                <h2 class="text-xl sm:text-2xl font-black uppercase">Asesmen telah ditutup</h2>
-                <p class="mt-2 text-sm text-gray-200 max-w-md mx-auto">Asesmen dibuka pada 7 Oktober 2026 pukul 10.00 &ndash; 12.00 WITA dan kini sudah berakhir. Pantau halaman Pengumuman Peserta untuk informasi selanjutnya.</p>
-            </section>
-
-            <section id="awal" class="form-panel mt-7 hidden">
+            <section id="awal" class="form-panel mt-7">
                 <h2 class="text-lg font-black uppercase">Petunjuk Umum</h2>
                 <ol class="mt-3 list-decimal pl-5 flex flex-col gap-1.5 text-sm text-gray-100">
                     <li>Bacalah setiap soal dengan teliti.</li>
@@ -227,41 +205,6 @@
             <button type="button" id="warn-ok" class="btn mt-5 w-full rounded-2xl bg-brand-red hover:bg-red-600 border border-red-300/40 px-6 py-3 text-sm font-extrabold uppercase tracking-wide">Saya mengerti</button>
         </div>
     </div>
-
-    <script>
-        // Asesmen dibuka 7 Oktober 2026, 10.00 - 12.00 WITA (UTC+8)
-        var BUKA_ASESMEN = new Date('2026-10-07T10:00:00+08:00').getTime();
-        var TUTUP_ASESMEN = new Date('2026-10-07T12:00:00+08:00').getTime();
-        (function () {
-            var $ = function (id) { return document.getElementById(id); };
-            function pad(n) { return String(n).padStart(2, '0'); }
-            function tampil(id) {
-                ['tunggu', 'awal', 'ditutup'].forEach(function (k) { $(k).classList.toggle('hidden', k !== id); });
-            }
-            function tick() {
-                var now = Date.now();
-                if (now >= TUTUP_ASESMEN) {
-                    // Jangan ganggu peserta yang sedang mengerjakan
-                    if (!$('form-asesmen').classList.contains('hidden') || !$('sukses').classList.contains('hidden')) {
-                        ['tunggu', 'awal', 'ditutup'].forEach(function (k) { $(k).classList.add('hidden'); });
-                    } else { tampil('ditutup'); }
-                    return false;
-                }
-                if (now >= BUKA_ASESMEN) {
-                    if (!$('form-asesmen').classList.contains('hidden')) return true;
-                    tampil('awal'); return true;
-                }
-                var sec = Math.floor((BUKA_ASESMEN - now) / 1000);
-                $('cd-d').textContent = pad(Math.floor(sec / 86400));
-                $('cd-h').textContent = pad(Math.floor(sec % 86400 / 3600));
-                $('cd-m').textContent = pad(Math.floor(sec % 3600 / 60));
-                $('cd-s').textContent = pad(sec % 60);
-                tampil('tunggu');
-                return true;
-            }
-            if (tick()) { var t = setInterval(function () { if (!tick()) clearInterval(t); }, 1000); }
-        })();
-    </script>
 
     <script>
         (function () {
@@ -382,7 +325,7 @@
                 return s;
             }
             function mulaiTimer() {
-                endAt = Math.min(Date.now() + DURASI * 1000, TUTUP_ASESMEN);
+                endAt = Date.now() + DURASI * 1000;
                 tampil();
                 timerId = setInterval(function () {
                     if (tampil() <= 0) {
