@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Penilaian | Sekolah Pemilu dan Demokrasi KPU Buton Selatan</title>
+    <link rel="icon" href="assets/Logo.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Montserrat', 'sans-serif'] },
+                    colors: { brand: { red: '#D91C1F', dark: '#0a0a0a', gray: '#1a1a1a' } }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .soft-bg {
+            background-color: #2b2b31;
+            background-image:
+                radial-gradient(circle at 50% 0%, rgba(217, 28, 31, 0.35) 0%, rgba(43, 43, 49, 0) 60%),
+                radial-gradient(circle at 100% 100%, rgba(255, 255, 255, 0.06) 0%, rgba(43, 43, 49, 0) 45%);
+            background-attachment: fixed;
+        }
+        .form-panel {
+            border-radius: 18px; padding: 20px;
+            background: linear-gradient(180deg, rgba(217,28,31,0.22) 0%, rgba(140,18,22,0.16) 100%);
+            border: 1px solid rgba(255,140,140,0.25);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+        }
+        @media (min-width: 640px) { .form-panel { padding: 28px; } }
+
+        .field-label { display: block; margin-bottom: 6px; font-size: 12px; font-weight: 700; color: #f3f4f6; }
+        .field-hint  { font-size: 12px; color: #d1d5db; }
+        .field-error { margin-top: 6px; font-size: 12px; font-weight: 600; color: #fecaca; }
+        .input {
+            width: 100%; border-radius: 12px; padding: 10px 12px; font-size: 15px; color: #fff;
+            background: rgba(0,0,0,0.28); border: 1px solid rgba(255,255,255,0.22);
+        }
+        .input::placeholder { color: #9ca3af; }
+        .input:focus { outline: none; border-color: #fff; background: rgba(0,0,0,0.38); box-shadow: 0 0 0 3px rgba(255,255,255,0.18); }
+        .input[aria-invalid="true"] { border-color: #f87171; background: rgba(127,29,29,0.35); }
+
+        .btn { transition: background .2s ease, transform .2s ease; }
+        .btn:hover:not(:disabled) { transform: translateY(-2px); }
+        .btn:disabled { opacity: .6; cursor: not-allowed; }
+        .btn:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+
+        .p-card { margin-top: 12px; padding: 16px; border-radius: 16px; background: rgba(0,0,0,0.22); border: 1px solid rgba(255,255,255,0.14); }
+        .p-card.dirty { border-color: #fbbf24; }
+        .essay { margin-top: 8px; border-radius: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.14); padding: 10px 12px; }
+        .essay summary { cursor: pointer; font-size: 13px; font-weight: 700; }
+        .essay p { margin-top: 8px; font-size: 14px; line-height: 1.55; white-space: pre-wrap; word-break: break-word; color: #f3f4f6; }
+
+        .tbl-wrap { overflow-x: auto; border-radius: 14px; border: 1px solid rgba(255,255,255,0.18); }
+        table.rank { width: 100%; min-width: 600px; border-collapse: collapse; font-size: 14px; }
+        table.rank th { text-align: left; padding: 10px 12px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #d1d5db; background: rgba(0,0,0,0.35); }
+        table.rank td { padding: 10px 12px; border-top: 1px solid rgba(255,255,255,0.10); }
+        table.rank .num { text-align: right; font-variant-numeric: tabular-nums; }
+        table.rank tr.lulus td { background: rgba(22,163,74,0.16); }
+        table.rank tr.cadangan td { background: rgba(217,119,6,0.16); }
+        table.rank tr.pisah td { background: rgba(0,0,0,0.35); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #d1d5db; }
+        .chip { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+        .chip.lulus { background: #16a34a; color: #fff; }
+        .chip.cadangan { background: #d97706; color: #fff; }
+        .chip.tunggu { background: rgba(255,255,255,0.14); color: #e5e7eb; }
+
+        @media (prefers-reduced-motion: reduce) { .btn:hover:not(:disabled) { transform: none; } }
+    </style>
+</head>
+
+<body class="soft-bg text-white font-sans antialiased min-h-screen flex flex-col selection:bg-brand-red selection:text-white">
+
+    <div class="w-full h-1.5 bg-gradient-to-r from-transparent via-brand-red to-transparent"></div>
+
+    <header class="w-full border-b border-white/10 bg-white/5 backdrop-blur">
+        <div class="px-6 md:px-12">
+            <div class="max-w-[1000px] mx-auto py-3 flex items-center gap-3 md:gap-4">
+                <a href="https://www.kpu.go.id" target="_blank" rel="noopener" class="shrink-0">
+                    <img src="https://www.kpu.go.id/images/1627539868logo-kpu.png" alt="Logo KPU" class="h-10 md:h-14 w-auto object-contain">
+                </a>
+                <span class="h-8 md:h-10 w-px bg-white/25"></span>
+                <a href="index.html" class="shrink-0">
+                    <img src="assets/Logo.png" alt="Logo Sekolah Pemilu dan Demokrasi" class="h-10 md:h-14 w-auto object-contain">
+                </a>
+                <p class="ml-1 text-[11px] md:text-xs font-semibold leading-tight text-gray-200">
+                    Sekolah Pemilu &amp; Demokrasi<br>
+                    <span class="text-red-400 font-black">KPU Buton Selatan</span>
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 w-full px-6 md:px-12 pt-9 md:pt-12 pb-12">
+        <div class="max-w-[1000px] mx-auto">
+
+            <div class="text-center">
+                <h1 class="font-black uppercase tracking-tight text-2xl sm:text-3xl md:text-4xl">Penilaian Seleksi</h1>
+                <p class="mt-2 text-sm text-gray-300">Khusus panitia &middot; Input nilai, peringkat, dan kelulusan peserta</p>
+            </div>
+
+            <!-- Masuk -->
+            <section id="login" class="form-panel mt-7 max-w-[460px] mx-auto">
+                <label for="sandi" class="field-label">Kata sandi panitia</label>
+                <input class="input" type="password" id="sandi" autocomplete="current-password">
+                <p class="field-error" id="err-login" role="alert"></p>
+                <button type="button" id="btn-masuk" class="btn mt-4 w-full rounded-2xl bg-brand-red hover:bg-red-600 border border-red-300/40 px-6 py-3 text-sm font-extrabold uppercase tracking-wide">Masuk</button>
+            </section>
+
+            <div id="isi" class="hidden">
+
+                <!-- Ringkasan & aksi -->
+                <div class="mt-7 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                    <p class="text-sm text-gray-200" id="ringkas"></p>
+                    <div class="flex gap-2">
+                        <button type="button" id="btn-muat" class="btn rounded-xl bg-white/5 hover:bg-white/10 border border-white/25 px-4 py-2.5 text-xs font-bold uppercase tracking-wide">Muat ulang</button>
+                        <button type="button" id="btn-simpan" class="btn rounded-xl bg-brand-red hover:bg-red-600 border border-red-300/40 px-4 py-2.5 text-xs font-extrabold uppercase tracking-wide" disabled>Simpan nilai</button>
+                        <button type="button" id="btn-keluar" class="btn rounded-xl bg-white/5 hover:bg-white/10 border border-white/25 px-4 py-2.5 text-xs font-bold uppercase tracking-wide">Keluar</button>
+                    </div>
+                </div>
+                <p class="field-error" id="err-isi" role="alert"></p>
+                <p class="text-sm font-semibold text-emerald-300" id="ok-isi" role="status"></p>
+
+                <!-- Peringkat -->
+                <section class="form-panel mt-5" aria-labelledby="h-rank">
+                    <h2 id="h-rank" class="text-lg font-black uppercase">Peringkat &amp; Kelulusan</h2>
+                    <p class="mt-1 field-hint">Total = Tes (45) + Motivasi (30) + Kontribusi (25) = 100. Peringkat 1&ndash;<span id="n-lulus"></span> lulus, <span id="n-cad-awal"></span>&ndash;<span id="n-cad-akhir"></span> cadangan. Nilai seri diurutkan dengan nilai tes tertinggi.</p>
+                    <p class="mt-3 text-sm font-semibold text-amber-300" id="peringatan"></p>
+                    <div class="tbl-wrap mt-4">
+                        <table class="rank">
+                            <thead>
+                                <tr>
+                                    <th>Peringkat</th><th>Nama</th>
+                                    <th class="num">Tes</th><th class="num">Motivasi</th><th class="num">Kontribusi</th>
+                                    <th class="num">Total</th><th>Keterangan</th>
+                                </tr>
+                            </thead>
+                            <tbody id="rank-body"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Input nilai -->
+                <section class="form-panel mt-6" aria-labelledby="h-input">
+                    <h2 id="h-input" class="text-lg font-black uppercase">Input Nilai</h2>
+                    <p class="mt-1 field-hint">Isi nilai motivasi dan kontribusi, lalu tekan &ldquo;Simpan nilai&rdquo;. Kartu bertepi kuning berisi perubahan yang belum disimpan. Nilai boleh berkoma, misalnya 17,5.</p>
+                    <div class="mt-4">
+                        <label for="cari" class="field-label">Cari peserta</label>
+                        <input class="input" type="search" id="cari" placeholder="Nama atau e-mail">
+                    </div>
+                    <div id="daftar"></div>
+                </section>
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="text-center text-[11px] text-gray-400 pb-5">
+        &copy; 2026 KPU Kabupaten Buton Selatan
+    </footer>
+
+    <script>
+        (function () {
+            var ENDPOINT = 'https://script.google.com/macros/s/AKfycbw9NaeoKLLeBGTgN88Spt5InjOSeUrPYuqdC_xbByw36RJxklDpbFEh7PcnFoq1EeEHfA/exec';
+            var JUMLAH_LULUS = 20;     // peringkat 1..20 lulus
+            var JUMLAH_CADANGAN = 5;   // peringkat 21..25 cadangan (isi 0 bila tidak dipakai)
+            var MAKS = { mot: 30, kon: 25 };
+
+            function $(id) { return document.getElementById(id); }
+            function el(tag, cls, text) {
+                var e = document.createElement(tag);
+                if (cls) e.className = cls;
+                if (text != null) e.textContent = text;
+                return e;
+            }
+            function fmt(n) { return Number(n).toLocaleString('id-ID', { maximumFractionDigits: 2 }); }
+
+            var kunci = '';
+            var P = [];          // peserta
+            var kartu = {};      // email -> elemen kartu
+
+            $('n-lulus').textContent = JUMLAH_LULUS;
+            $('n-cad-awal').textContent = JUMLAH_LULUS + 1;
+            $('n-cad-akhir').textContent = JUMLAH_LULUS + JUMLAH_CADANGAN;
+
+            function kirim(payload) {
+                return fetch(ENDPOINT, { method: 'POST', body: JSON.stringify(payload) }).then(function (r) { return r.json(); });
+            }
+
+            /* ---------- Hitung peringkat (fungsi murni) ---------- */
+            // RANK-START
+            function hitung(peserta, lulus, cadangan) {
+                function valid(v, maks) { return typeof v === 'number' && isFinite(v) && v >= 0 && v <= maks; }
+                var lengkap = [], belum = [];
+                peserta.forEach(function (p) {
+                    var ok = valid(p.mot, MAKS.mot) && valid(p.kon, MAKS.kon);
+                    var tes = Number(p.tes) || 0;
+                    var item = { p: p, tes: tes, total: ok ? Math.round((tes + p.mot + p.kon) * 100) / 100 : null };
+                    (ok ? lengkap : belum).push(item);
+                });
+                lengkap.sort(function (a, b) { return b.total - a.total || b.tes - a.tes; });
+                lengkap.forEach(function (it, i) {
+                    var lebih = 0;
+                    for (var j = 0; j < lengkap.length; j++) {
+                        if (lengkap[j].total > it.total || (lengkap[j].total === it.total && lengkap[j].tes > it.tes)) lebih++;
+                    }
+                    it.rank = lebih + 1;
+                    it.status = i < lulus ? 'lulus' : (i < lulus + cadangan ? 'cadangan' : '');
+                });
+                function seri(batas) {
+                    return batas > 0 && lengkap.length > batas &&
+                        lengkap[batas - 1].total === lengkap[batas].total && lengkap[batas - 1].tes === lengkap[batas].tes;
+                }
+                return { lengkap: lengkap, belum: belum, seriLulus: seri(lulus), seriCadangan: cadangan > 0 && seri(lulus + cadangan) };
+            }
+            // RANK-END
+
+            /* ---------- Tampilan ---------- */
+            function renderRank() {
+                var h = hitung(P, JUMLAH_LULUS, JUMLAH_CADANGAN);
+                var body = $('rank-body');
+                body.textContent = '';
+                function sel(txt, cls) { var td = el('td', cls, txt); return td; }
+                function baris(it, rank, status) {
+                    var tr = el('tr', status === 'lulus' ? 'lulus' : (status === 'cadangan' ? 'cadangan' : ''));
+                    tr.appendChild(sel(rank != null ? String(rank) : '-', 'font-black'));
+                    tr.appendChild(sel(it.p.nama));
+                    tr.appendChild(sel(fmt(it.tes), 'num'));
+                    tr.appendChild(sel(fmt0(it.p.mot), 'num'));
+                    tr.appendChild(sel(fmt0(it.p.kon), 'num'));
+                    tr.appendChild(sel(it.total != null ? fmt(it.total) : '-', 'num font-black'));
+                    var td = el('td');
+                    if (status === 'lulus') td.appendChild(el('span', 'chip lulus', 'Lulus'));
+                    else if (status === 'cadangan') td.appendChild(el('span', 'chip cadangan', 'Cadangan'));
+                    else if (it.total == null) td.appendChild(el('span', 'chip tunggu', 'Menunggu nilai'));
+                    else td.appendChild(el('span', 'text-xs text-gray-300', 'Tidak lulus'));
+                    tr.appendChild(td);
+                    return tr;
+                }
+                function fmt0(v) { return typeof v === 'number' && isFinite(v) ? fmt(v) : '-'; }
+
+                h.lengkap.forEach(function (it) { body.appendChild(baris(it, it.rank, it.status)); });
+                if (h.belum.length) {
+                    var sp = el('tr', 'pisah'); var c = el('td', null, 'Belum lengkap dinilai (' + h.belum.length + ')'); c.colSpan = 7; sp.appendChild(c); body.appendChild(sp);
+                    h.belum.forEach(function (it) { body.appendChild(baris(it, null, '')); });
+                }
+                if (!P.length) {
+                    var tr = el('tr'); var td = el('td', 'text-center text-gray-300', 'Belum ada peserta yang mengirim asesmen.'); td.colSpan = 7; tr.appendChild(td); body.appendChild(tr);
+                }
+
+                var info = [];
+                if (h.belum.length) info.push('Peringkat sementara: masih ada ' + h.belum.length + ' peserta yang belum lengkap dinilai.');
+                if (h.seriLulus) info.push('Peringkat ' + JUMLAH_LULUS + ' dan ' + (JUMLAH_LULUS + 1) + ' memiliki nilai total dan nilai tes yang sama. Tentukan secara manual siapa yang lulus.');
+                if (h.seriCadangan) info.push('Peringkat ' + (JUMLAH_LULUS + JUMLAH_CADANGAN) + ' dan ' + (JUMLAH_LULUS + JUMLAH_CADANGAN + 1) + ' memiliki nilai yang sama pada batas cadangan.');
+                $('peringatan').textContent = info.join(' ');
+                $('ringkas').textContent = P.length + ' peserta mengirim asesmen \u00b7 ' + h.lengkap.length + ' sudah lengkap dinilai';
+            }
+
+            function adaPerubahan(p) { return p.mot !== p.s.mot || p.kon !== p.s.kon; }
+            function perubahan() { return P.filter(adaPerubahan); }
+            function parse(v) {
+                v = String(v).trim().replace(',', '.');
+                return v === '' ? null : Number(v);
+            }
+            function sinyal() {
+                var n = perubahan().length;
+                $('btn-simpan').disabled = n === 0;
+                $('btn-simpan').textContent = n ? 'Simpan nilai (' + n + ')' : 'Simpan nilai';
+                P.forEach(function (p) {
+                    var d = adaPerubahan(p);
+                    kartu[p.email].classList.toggle('dirty', d);
+                    p.btn.disabled = !d; p.btn.textContent = 'Simpan';
+                });
+            }
+
+            function buatKartu(p) {
+                var c = el('div', 'p-card');
+                c.dataset.cari = (p.nama + ' ' + p.email).toLowerCase();
+                var top = el('div', 'flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1');
+                top.appendChild(el('p', 'font-extrabold', p.nama));
+                top.appendChild(el('p', 'text-xs text-gray-300',
+                    p.email + ' \u00b7 Benar ' + p.benar + '/30 \u00b7 Nilai tes ' + fmt(p.tes) + (p.durasi != null ? ' \u00b7 ' + fmt(p.durasi) + ' menit' : '')));
+                c.appendChild(top);
+
+                [['Motivasi (31)', p.motivasi], ['Rencana kontribusi (32)', p.kontribusi]].forEach(function (x) {
+                    var d = el('details', 'essay');
+                    d.appendChild(el('summary', null, x[0]));
+                    d.appendChild(el('p', null, x[1] || '(kosong)'));
+                    c.appendChild(d);
+                });
+
+                var g = el('div', 'mt-3 grid grid-cols-1 sm:grid-cols-[1fr_1fr_auto] items-end gap-3');
+                [['mot', 'Motivasi', MAKS.mot], ['kon', 'Rencana kontribusi', MAKS.kon]].forEach(function (f) {
+                    var w = el('div');
+                    var id = 'in-' + f[0] + '-' + p.email;
+                    var lb = el('label', 'field-label', f[1] + ' (maks ' + f[2] + ')'); lb.setAttribute('for', id);
+                    var inp = document.createElement('input');
+                    inp.className = 'input'; inp.id = id; inp.type = 'text'; inp.inputMode = 'decimal'; inp.autocomplete = 'off';
+                    inp.value = p[f[0]] == null ? '' : String(p[f[0]]).replace('.', ',');
+                    inp.addEventListener('input', function () {
+                        var v = parse(inp.value);
+                        var bad = v !== null && (!isFinite(v) || v < 0 || v > f[2]);
+                        inp.setAttribute('aria-invalid', bad ? 'true' : 'false');
+                        p[f[0]] = bad ? NaN : v;
+                        sinyal(); renderRank();
+                    });
+                    w.appendChild(lb); w.appendChild(inp);
+                    g.appendChild(w);
+                });
+                var tb = el('button', 'btn h-[46px] rounded-xl bg-brand-red hover:bg-red-600 border border-red-300/40 px-6 text-xs font-extrabold uppercase tracking-wide', 'Simpan');
+                tb.type = 'button'; tb.disabled = true;
+                tb.addEventListener('click', function () { simpan([p]); });
+                p.btn = tb;
+                g.appendChild(tb);
+                c.appendChild(g);
+                return c;
+            }
+
+            function tampilkan(data) {
+                if (data.maks) { MAKS = data.maks; }
+                P = data.peserta.map(function (r) {
+                    var p = {
+                        email: r.email, nama: r.nama, benar: r.benar, tes: Number(r.tes) || 0, durasi: r.durasi,
+                        motivasi: r.motivasi, kontribusi: r.kontribusi,
+                        mot: r.nMot, kon: r.nKon
+                    };
+                    p.s = { mot: p.mot, kon: p.kon };
+                    return p;
+                });
+                var box = $('daftar'); box.textContent = ''; kartu = {};
+                P.forEach(function (p) { var c = buatKartu(p); kartu[p.email] = c; box.appendChild(c); });
+                $('cari').value = '';
+                sinyal(); renderRank();
+            }
+
+            /* ---------- Masuk / muat / simpan ---------- */
+            function muat() {
+                $('err-isi').textContent = ''; $('ok-isi').textContent = '';
+                var b = $('btn-muat'); b.disabled = true;
+                return kirim({ aksi: 'nilai_data', kunci: kunci }).then(function (res) {
+                    if (!res.ok) { throw new Error(res.message || 'Gagal memuat data.'); }
+                    tampilkan(res);
+                }).finally(function () { b.disabled = false; });
+            }
+
+            function masuk(sandi) {
+                var err = $('err-login'); err.textContent = '';
+                if (!sandi) { err.textContent = 'Isi kata sandi.'; return; }
+                var b = $('btn-masuk'); b.disabled = true; b.textContent = 'Memeriksa...';
+                kunci = sandi;
+                muat().then(function () {
+                    sessionStorage.setItem('spd_kunci', sandi);
+                    $('login').classList.add('hidden');
+                    $('isi').classList.remove('hidden');
+                }).catch(function (e) {
+                    kunci = ''; sessionStorage.removeItem('spd_kunci');
+                    err.textContent = (e && e.message && e.message !== 'Failed to fetch') ? e.message : 'Gagal terhubung. Periksa koneksi internet.';
+                }).then(function () { b.disabled = false; b.textContent = 'Masuk'; });
+            }
+
+            $('btn-masuk').addEventListener('click', function () { masuk($('sandi').value); });
+            $('sandi').addEventListener('keydown', function (e) { if (e.key === 'Enter') masuk($('sandi').value); });
+
+            $('btn-muat').addEventListener('click', function () {
+                if (perubahan().length && !confirm('Ada nilai yang belum disimpan. Muat ulang akan membuangnya. Lanjutkan?')) return;
+                muat().catch(function (e) { $('err-isi').textContent = e.message || 'Gagal memuat data.'; });
+            });
+
+            function simpan(ubah) {
+                $('err-isi').textContent = ''; $('ok-isi').textContent = '';
+                var salah = ubah.some(function (p) { return [p.mot, p.kon].some(function (v) { return typeof v === 'number' && isNaN(v); }); });
+                if (salah) { $('err-isi').textContent = 'Ada nilai di luar rentang atau bukan angka (kolom bertanda merah). Perbaiki dulu.'; return; }
+                var b = $('btn-simpan'); b.disabled = true; b.textContent = 'Menyimpan...';
+                ubah.forEach(function (p) { p.btn.disabled = true; p.btn.textContent = 'Menyimpan...'; });
+                kirim({ aksi: 'nilai_simpan', kunci: kunci, nilai: ubah.map(function (p) { return { email: p.email, mot: p.mot, kon: p.kon }; }) })
+                    .then(function (res) {
+                        var gagal = res.gagal || [];
+                        ubah.forEach(function (p) { if (gagal.indexOf(p.email) === -1) p.s = { mot: p.mot, kon: p.kon }; });
+                        if (!res.ok) { $('err-isi').textContent = res.message + (gagal.length ? ' (' + gagal.length + ' peserta)' : ''); }
+                        else { $('ok-isi').textContent = res.tersimpan + ' nilai peserta tersimpan.'; }
+                    })
+                    .catch(function () { $('err-isi').textContent = 'Gagal menyimpan. Periksa koneksi internet lalu coba lagi.'; })
+                    .then(function () { sinyal(); });
+            }
+            $('btn-simpan').addEventListener('click', function () { simpan(perubahan()); });
+
+            $('btn-keluar').addEventListener('click', function () {
+                if (perubahan().length && !confirm('Ada nilai yang belum disimpan. Tetap keluar?')) return;
+                sessionStorage.removeItem('spd_kunci'); kunci = ''; P = [];
+                $('isi').classList.add('hidden'); $('login').classList.remove('hidden'); $('sandi').value = '';
+            });
+
+            $('cari').addEventListener('input', function () {
+                var q = this.value.trim().toLowerCase();
+                Object.keys(kartu).forEach(function (k) { kartu[k].classList.toggle('hidden', q !== '' && kartu[k].dataset.cari.indexOf(q) === -1); });
+            });
+
+            window.addEventListener('beforeunload', function (e) {
+                if (perubahan().length) { e.preventDefault(); e.returnValue = ''; }
+            });
+
+            var tersimpan = sessionStorage.getItem('spd_kunci');
+            if (tersimpan) masuk(tersimpan);
+        })();
+    </script>
+</body>
+</html>
