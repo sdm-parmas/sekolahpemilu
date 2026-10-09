@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pre Test | Sekolah Pemilu dan Demokrasi KPU Buton Selatan</title>
+    <link rel="icon" href="assets/Logo.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Montserrat', 'sans-serif'] },
+                    colors: { brand: { red: '#D91C1F', dark: '#0a0a0a', gray: '#1a1a1a' } }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .soft-bg {
+            background-color: #2b2b31;
+            background-image:
+                radial-gradient(circle at 50% 0%, rgba(217, 28, 31, 0.35) 0%, rgba(43, 43, 49, 0) 60%),
+                radial-gradient(circle at 100% 100%, rgba(255, 255, 255, 0.06) 0%, rgba(43, 43, 49, 0) 45%);
+            background-attachment: fixed;
+        }
+
+        .form-panel {
+            border-radius: 18px; padding: 20px;
+            background: linear-gradient(180deg, rgba(217,28,31,0.22) 0%, rgba(140,18,22,0.16) 100%);
+            border: 1px solid rgba(255,140,140,0.25);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+        }
+        @media (min-width: 640px) { .form-panel { padding: 28px; } }
+
+        .field-label { display: block; margin-bottom: 6px; font-size: 13px; font-weight: 700; color: #f3f4f6; }
+        .field-hint  { margin-top: 5px; font-size: 12px; color: #d1d5db; }
+        .field-error { margin-top: 5px; font-size: 12px; font-weight: 600; color: #fecaca; }
+
+        .input {
+            width: 100%; border-radius: 12px; padding: 12px 14px; font-size: 15px; color: #fff;
+            background: rgba(0,0,0,0.28); border: 1px solid rgba(255,255,255,0.22);
+            transition: border-color .2s ease, background .2s ease;
+        }
+        .input::placeholder { color: #9ca3af; }
+        .input:focus { outline: none; border-color: #fff; background: rgba(0,0,0,0.38); box-shadow: 0 0 0 3px rgba(255,255,255,0.18); }
+        .input[aria-invalid="true"] { border-color: #f87171; }
+        textarea.input { resize: vertical; min-height: 150px; line-height: 1.5; }
+
+        .btn { transition: background .2s ease, transform .2s ease; }
+        .btn:hover:not(:disabled) { transform: translateY(-2px); }
+        .btn:disabled { opacity: .65; cursor: wait; }
+        .btn:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+
+        /* Soal */
+        .part-title { margin: 28px 0 4px; font-weight: 900; text-transform: uppercase; letter-spacing: .02em; font-size: 15px; color: #fca5a5; }
+        .sub-title { margin: 20px 0 2px; font-weight: 700; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: #d1d5db; }
+        .q-card {
+            margin-top: 12px; padding: 16px; border-radius: 16px;
+            background: rgba(0,0,0,0.22); border: 1px solid rgba(255,255,255,0.14);
+        }
+        .q-card[aria-invalid="true"] { border-color: #f87171; }
+        .q-text { font-weight: 700; font-size: 15px; line-height: 1.5; }
+        .opt {
+            display: flex; gap: 12px; align-items: flex-start; cursor: pointer;
+            margin-top: 8px; padding: 10px 12px; border-radius: 12px;
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.18);
+            transition: background .15s ease, border-color .15s ease;
+        }
+        .opt:hover { background: rgba(255,255,255,0.10); }
+        .opt input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+        .opt-key {
+            flex: none; width: 26px; height: 26px; border-radius: 8px; font-size: 13px; font-weight: 800;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(255,255,255,0.14);
+        }
+        .opt-text { font-size: 14px; line-height: 1.5; padding-top: 2px; }
+        .opt:has(input:checked) { background: rgba(217,28,31,0.55); border-color: #fff; }
+        .opt:has(input:checked) .opt-key { background: #fff; color: #D91C1F; }
+        .opt:has(input:focus-visible) { outline: 3px solid #fff; outline-offset: 2px; }
+
+        .timer-bar {
+            position: sticky; top: 0; z-index: 30; margin: 0 -4px 16px; padding: 10px 16px; border-radius: 14px;
+            display: flex; align-items: center; justify-content: space-between; gap: 12px;
+            background: rgba(30,30,36,0.92); backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,0.2);
+        }
+        .timer-num { font-weight: 900; font-size: 22px; font-variant-numeric: tabular-nums; }
+        .timer-bar.warn .timer-num { color: #f87171; }
+
+        @media (prefers-reduced-motion: reduce) { .btn:hover:not(:disabled) { transform: none; } }
+    </style>
+</head>
+
+<body class="soft-bg text-white font-sans antialiased min-h-screen flex flex-col selection:bg-brand-red selection:text-white">
+
+    <div class="w-full h-1.5 bg-gradient-to-r from-transparent via-brand-red to-transparent"></div>
+
+    <!-- Header -->
+    <header class="w-full border-b border-white/10 bg-white/5 backdrop-blur">
+        <div class="px-6 md:px-12">
+            <div class="max-w-[760px] mx-auto py-3 flex items-center gap-3 md:gap-4">
+                <a href="https://www.kpu.go.id" target="_blank" rel="noopener" class="shrink-0">
+                    <img src="https://www.kpu.go.id/images/1627539868logo-kpu.png" alt="Logo KPU"
+                         class="h-10 md:h-14 w-auto object-contain">
+                </a>
+                <span class="h-8 md:h-10 w-px bg-white/25"></span>
+                <a href="index.html" class="shrink-0">
+                    <img src="assets/Logo.png" alt="Logo Sekolah Pemilu dan Demokrasi"
+                         class="h-10 md:h-14 w-auto object-contain">
+                </a>
+                <p class="ml-1 text-[11px] md:text-xs font-semibold leading-tight text-gray-200">
+                    Sekolah Pemilu &amp; Demokrasi<br>
+                    <span class="text-red-400 font-black">KPU Buton Selatan</span>
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Konten -->
+    <main class="flex-1 w-full px-6 md:px-12 pt-9 md:pt-12 pb-12">
+        <div class="max-w-[760px] mx-auto">
+
+            <div class="text-center">
+                <h1 class="font-black uppercase tracking-tight text-2xl sm:text-3xl md:text-4xl">Pre Test</h1>
+                <p class="mt-2 text-sm text-gray-300">Sekolah Pemilu dan Demokrasi 2026 &middot; KPU Kabupaten Buton Selatan</p>
+            </div>
+
+            <!-- Soal -->
+            <form id="form-tes" class="mt-7" novalidate>
+                <div class="form-panel">
+                    <label for="email" class="field-label">E-mail yang digunakan saat mendaftar</label>
+                    <input class="input" type="email" id="email" autocomplete="email" inputmode="email" placeholder="nama@email.com">
+                    <p class="mt-2 text-sm font-semibold" id="status-email" role="status"></p>
+                </div>
+                <div class="form-panel mt-4" id="soal"></div>
+                <p class="field-error text-center mt-4" id="err-form" role="alert"></p>
+                <button type="submit" id="btn-kirim" class="btn mt-3 w-full rounded-2xl bg-brand-red hover:bg-red-600 border border-red-300/40 px-6 py-3.5 text-sm font-extrabold uppercase tracking-wide">Kirim Jawaban</button>
+            </form>
+
+            <!-- Setelah terkirim -->
+            <div id="sukses" class="form-panel mt-7 text-center hidden" tabindex="-1">
+                <span class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-brand-red" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+                </span>
+                <h2 class="mt-4 text-xl font-black uppercase">Jawaban terkirim</h2>
+                <p class="mt-5 text-xs font-semibold uppercase tracking-widest text-gray-300">Nilai kamu</p>
+                <p class="mt-1 font-black leading-none text-6xl" id="skor">-</p>
+                <p class="mt-3 text-sm text-gray-200" id="skor-ket"></p>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Pop up pemberitahuan -->
+    <div id="modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 px-6" role="alertdialog" aria-modal="true" aria-labelledby="modal-judul" aria-describedby="modal-isi">
+        <div class="w-full max-w-[380px] rounded-2xl border border-red-300/40 bg-[#2b2b31] p-6 text-center shadow-2xl">
+            <span class="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-brand-red" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5"/><path d="M12 16.5v.01"/></svg>
+            </span>
+            <h2 id="modal-judul" class="mt-3 text-lg font-black uppercase"></h2>
+            <p id="modal-isi" class="mt-1 text-sm text-gray-200"></p>
+            <button type="button" id="modal-ok" class="btn mt-5 w-full rounded-xl bg-brand-red hover:bg-red-600 border border-red-300/40 px-6 py-3 text-sm font-extrabold uppercase tracking-wide">OK</button>
+        </div>
+    </div>
+
+    <footer class="text-center text-[11px] text-gray-400 pb-5">
+        &copy; 2026 KPU Kabupaten Buton Selatan
+    </footer>
+
+    <script>
+        (function () {
+            var ENDPOINT = 'https://script.google.com/macros/s/AKfycbw9NaeoKLLeBGTgN88Spt5InjOSeUrPYuqdC_xbByw36RJxklDpbFEh7PcnFoq1EeEHfA/exec';
+            var SOAL = [{"n": 1, "q": "Pemilu merupakan instrumen utama dalam sistem pemerintahan demokrasi. Asas pelaksanaan pemilu di Indonesia yang diatur dalam perundang-undangan dikenal dengan asas \"Luber Jurdil\", yang merupakan singkatan dari...", "o": {"A": "Langsung, Utuh, Bebas, Rahasia, Jujur, dan Adil", "B": "Langsung, Umum, Bersih, Rahasia, Jujur, dan Adil", "C": "Langsung, Umum, Bebas, Rahasia, Jujur, dan Adil", "D": "Lembaga, Umum, Bebas, Rahasia, Jujur, dan Adil", "E": "Langsung, Umum, Bebas, Rutin, Jujur, dan Adil"}}, {"n": 2, "q": "Penyelenggara pemilu wajib mematuhi prinsip dan kode etik penyelenggara. Lembaga yang berwenang menangani dan mengadili pelanggaran kode etik yang dilakukan oleh anggota KPU atau Bawaslu adalah...", "o": {"A": "Mahkamah Agung", "B": "Kepolisian Negara Republik Indonesia", "C": "Dewan Kehormatan Penyelenggara Pemilu (DKPP)", "D": "Kejaksaan Republik Indonesia", "E": "Pengadilan Tinggi Tata Usaha Negara (PTTUN)"}}, {"n": 3, "q": "Dalam penyusunan Daerah Pemilihan (Dapil) dan alokasi kursi peserta pemilu legislatif (DPR/DPRD), salah satu prinsip utama yang harus diperhatikan adalah kesetaraan nilai suara atau...", "o": {"A": "One person, one vote, one value (OPOVOV)", "B": "First past the post", "C": "Proportional representation", "D": "Majority rule", "E": "Electoral threshold"}}, {"n": 4, "q": "Pencalonan untuk anggota Dewan Perwakilan Daerah (DPD) dalam sistem pemilu di Indonesia menggunakan jalur pencalonan...", "o": {"A": "Penunjukan langsung oleh Pemerintah Daerah", "B": "Pengusulan dari Partai Politik Peserta Pemilu", "C": "Gabungan Partai Politik", "D": "Perseorangan dengan dukungan minimal pemilih", "E": "Pengusulan dari Organisasi Masyarakat (Ormas)"}}, {"n": 5, "q": "Dalam penyusunan dan pemutakhiran data pemilih, pemilih yang telah terdaftar dalam DPT namun berniat memberikan suara di TPS/wilayah lain karena alasan tertentu dikategorikan ke dalam...", "o": {"A": "Daftar Pemilih Tetap (DPT)", "B": "Daftar Pemilih Tambahan (DPTb)", "C": "Daftar Pemilih Khusus (DPK)", "D": "Pemilih Pemula", "E": "Pemilih Tidak Terdaftar"}}, {"n": 6, "q": "Jenis pelanggaran pemilu yang berkaitan dengan tata cara, prosedur, atau mekanisme yang berkaitan dengan administrasi pelaksanaan tahapan pemilu disebut...", "o": {"A": "Tindak Pidana Pemilu", "B": "Pelanggaran Kode Etik Penyelenggara Pemilu", "C": "Pelanggaran Administrasi Pemilu", "D": "Sengketa Proses Pemilu", "E": "Sengketa Hasil Pemilu"}}, {"n": 7, "q": "Lembaga yang berwenang untuk mengadili dan memutuskan Sengketa Hasil Perselisihan Hasil Pemilihan Umum (PHPU) di Indonesia adalah...", "o": {"A": "Badan Pengawas Pemilihan Umum (Bawaslu)", "B": "Mahkamah Agung (MA)", "C": "Mahkamah Konstitusi (MK)", "D": "Pengadilan Negeri", "E": "Komisi Pemilihan Umum (KPU)"}}, {"n": 8, "q": "Di Indonesia, Pemilihan Umum pertama kali diselenggarakan pada tahun...", "o": {"A": "1945", "B": "1955", "C": "1971", "D": "1998", "E": "1999"}}, {"n": 9, "q": "Pemilih yang memiliki hak pilih dan menggunakan KTP-el tetapi tidak terdaftar dalam DPT maupun DPTb dapat menyalurkan hak pilihnya pada hari pemungutan suara sebagai...", "o": {"A": "Daftar Pemilih Tetap (DPT)", "B": "Daftar Pemilih Tambahan (DPTb)", "C": "Daftar Pemilih Khusus (DPK)", "D": "Pemilih Luar Negeri", "E": "Pemilih Cadangan"}}, {"n": 10, "q": "Tindak pidana pemilu seperti praktik politik uang (money politics) atau pemalsuan dokumen pemilu diproses dan ditangani melalui wadah penegakan hukum terpadu yang terdiri dari Bawaslu, Kepolisian, dan Kejaksaan, yang dikenal dengan nama...", "o": {"A": "DKPP", "B": "Gakkumdu (Sentra Penegakan Hukum Terpadu)", "C": "PTUN", "D": "Mahkamah Konstitusi", "E": "Komisi Yudisial"}}];
+            var PILIHAN = ['A', 'B', 'C', 'D', 'E'];
+
+            function $(id) { return document.getElementById(id); }
+            function el(tag, cls, text) {
+                var e = document.createElement(tag);
+                if (cls) e.className = cls;
+                if (text != null) e.textContent = text;
+                return e;
+            }
+            function kirim(payload) {
+                return fetch(ENDPOINT, { method: 'POST', body: JSON.stringify(payload) }).then(function (r) { return r.json(); });
+            }
+
+            var soalBox = $('soal');
+            SOAL.forEach(function (it) {
+                var card = el('fieldset', 'q-card');
+                card.id = 'card-' + it.n;
+                card.appendChild(el('legend', 'sr-only', 'Soal ' + it.n));
+                card.appendChild(el('p', 'q-text', it.n + '. ' + it.q));
+                PILIHAN.forEach(function (k) {
+                    var lab = el('label', 'opt');
+                    var r = document.createElement('input');
+                    r.type = 'radio'; r.name = 'q' + it.n; r.value = k;
+                    r.addEventListener('change', function () { card.removeAttribute('aria-invalid'); });
+                    lab.appendChild(r);
+                    lab.appendChild(el('span', 'opt-key', k));
+                    lab.appendChild(el('span', 'opt-text', it.o[k]));
+                    card.appendChild(lab);
+                });
+                soalBox.appendChild(card);
+            });
+
+            var mulai = false, terkirim = false;
+
+            function popup(judul, isi, fokusEmail) {
+                $('modal-judul').textContent = judul;
+                $('modal-isi').textContent = isi;
+                $('modal').classList.remove('hidden'); $('modal').classList.add('flex');
+                $('modal-ok').focus();
+                $('modal-ok').onclick = tutup;
+                function tutup() {
+                    $('modal').classList.add('hidden'); $('modal').classList.remove('flex');
+                    document.removeEventListener('keydown', esc);
+                    if (fokusEmail) $('email').focus();
+                }
+                function esc(e) { if (e.key === 'Escape') tutup(); }
+                document.addEventListener('keydown', esc);
+            }
+            $('form-tes').addEventListener('input', function () { mulai = true; });
+            var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+            function status(teks, ok) {
+                var s = $('status-email');
+                s.textContent = teks;
+                s.className = 'mt-2 text-sm font-semibold ' + (ok ? 'text-emerald-300' : 'text-red-300');
+            }
+            // Cek dini saat kolom e-mail selesai diisi; server tetap memeriksa lagi saat kirim
+            $('email').addEventListener('input', function () { $('email').removeAttribute('aria-invalid'); status('', true); });
+            $('email').addEventListener('change', function () {
+                var v = $('email').value.trim();
+                if (!v) return;
+                if (!EMAIL_RE.test(v)) { $('email').setAttribute('aria-invalid', 'true'); popup('E-mail salah', 'Isi e-mail yang valid.', true); return; }
+                kirim({ aksi: 'pretest_cek', email: v })
+                    .then(function (res) {
+                        if ($('email').value.trim() !== v) return;
+                        if (res.ok) { status('Halo, ' + res.nama + '.', true); return; }
+                        $('email').setAttribute('aria-invalid', 'true');
+                        popup(res.salahEmail ? 'E-mail salah' : 'Pemberitahuan', res.message || 'E-mail tidak ditemukan.', !!res.salahEmail);
+                    })
+                    .catch(function () {});
+            });
+
+            $('form-tes').addEventListener('submit', function (e) {
+                e.preventDefault();
+                var btn = $('btn-kirim'), err = $('err-form');
+                err.textContent = '';
+                var email = $('email').value.trim();
+                if (!EMAIL_RE.test(email)) {
+                    $('email').setAttribute('aria-invalid', 'true');
+                    popup('E-mail salah', 'Isi e-mail yang valid.', true);
+                    return;
+                }
+                var jawaban = [], first = null;
+                SOAL.forEach(function (it, i) {
+                    var c = document.querySelector('input[name="q' + it.n + '"]:checked');
+                    jawaban.push(c ? c.value : '');
+                    if (!c) { $('card-' + it.n).setAttribute('aria-invalid', 'true'); if (!first) first = $('card-' + it.n); }
+                });
+                if (first) {
+                    first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    err.textContent = 'Masih ada soal yang belum dijawab.';
+                    return;
+                }
+                btn.disabled = true; btn.textContent = 'Mengirim...';
+                kirim({ aksi: 'pretest_kirim', email: email, jawaban: jawaban }).then(function (res) {
+                    if (!res.ok) {
+                        // jawaban tetap di halaman; tidak perlu memuat ulang
+                        btn.disabled = false; btn.textContent = 'Kirim Jawaban';
+                        if (res.salahEmail) { $('email').setAttribute('aria-invalid', 'true'); }
+                        popup(res.salahEmail ? 'E-mail salah' : 'Pemberitahuan', res.message || 'Pengiriman gagal.', !!res.salahEmail);
+                        return;
+                    }
+                    terkirim = true;
+                    $('skor').textContent = res.nilai != null ? res.nilai : '-';
+                    $('skor-ket').textContent = res.benar != null ? res.benar + ' dari ' + SOAL.length + ' soal dijawab benar' : '';
+                    $('form-tes').classList.add('hidden');
+                    $('sukses').classList.remove('hidden');
+                    $('sukses').focus();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }).catch(function (e) {
+                    err.textContent = (e && e.message && e.message !== 'Failed to fetch') ? e.message : 'Jawaban gagal terkirim. Periksa koneksi internet lalu tekan Kirim Jawaban lagi.';
+                    btn.disabled = false; btn.textContent = 'Kirim Jawaban';
+                });
+            });
+
+            window.addEventListener('beforeunload', function (e) {
+                if (mulai && !terkirim) { e.preventDefault(); e.returnValue = ''; }
+            });
+        })();
+    </script>
+</body>
+</html>
