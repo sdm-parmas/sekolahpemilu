@@ -132,7 +132,14 @@
             </div>
 
             <!-- Soal -->
-            <form id="form-tes" class="mt-7" novalidate>
+            <div id="muat" class="form-panel mt-7 text-center">
+                <p class="text-sm text-gray-200" role="status">Memuat soal...</p>
+            </div>
+            <div id="pesan" class="form-panel mt-7 text-center hidden">
+                <p class="text-sm text-gray-200" id="pesan-isi" role="alert"></p>
+            </div>
+
+            <form id="form-tes" class="hidden mt-7" novalidate>
                 <div class="form-panel">
                     <label for="email" class="field-label">E-mail yang digunakan saat mendaftar</label>
                     <input class="input" type="email" id="email" autocomplete="email" inputmode="email" placeholder="nama@email.com">
@@ -176,7 +183,7 @@
     <script>
         (function () {
             var ENDPOINT = 'https://script.google.com/macros/s/AKfycbw9NaeoKLLeBGTgN88Spt5InjOSeUrPYuqdC_xbByw36RJxklDpbFEh7PcnFoq1EeEHfA/exec';
-            var SOAL = [{"n": 1, "q": "Pemilu merupakan instrumen utama dalam sistem pemerintahan demokrasi. Asas pelaksanaan pemilu di Indonesia yang diatur dalam perundang-undangan dikenal dengan asas \"Luber Jurdil\", yang merupakan singkatan dari...", "o": {"A": "Langsung, Utuh, Bebas, Rahasia, Jujur, dan Adil", "B": "Langsung, Umum, Bersih, Rahasia, Jujur, dan Adil", "C": "Langsung, Umum, Bebas, Rahasia, Jujur, dan Adil", "D": "Lembaga, Umum, Bebas, Rahasia, Jujur, dan Adil", "E": "Langsung, Umum, Bebas, Rutin, Jujur, dan Adil"}}, {"n": 2, "q": "Penyelenggara pemilu wajib mematuhi prinsip dan kode etik penyelenggara. Lembaga yang berwenang menangani dan mengadili pelanggaran kode etik yang dilakukan oleh anggota KPU atau Bawaslu adalah...", "o": {"A": "Mahkamah Agung", "B": "Kepolisian Negara Republik Indonesia", "C": "Dewan Kehormatan Penyelenggara Pemilu (DKPP)", "D": "Kejaksaan Republik Indonesia", "E": "Pengadilan Tinggi Tata Usaha Negara (PTTUN)"}}, {"n": 3, "q": "Dalam penyusunan Daerah Pemilihan (Dapil) dan alokasi kursi peserta pemilu legislatif (DPR/DPRD), salah satu prinsip utama yang harus diperhatikan adalah kesetaraan nilai suara atau...", "o": {"A": "One person, one vote, one value (OPOVOV)", "B": "First past the post", "C": "Proportional representation", "D": "Majority rule", "E": "Electoral threshold"}}, {"n": 4, "q": "Pencalonan untuk anggota Dewan Perwakilan Daerah (DPD) dalam sistem pemilu di Indonesia menggunakan jalur pencalonan...", "o": {"A": "Penunjukan langsung oleh Pemerintah Daerah", "B": "Pengusulan dari Partai Politik Peserta Pemilu", "C": "Gabungan Partai Politik", "D": "Perseorangan dengan dukungan minimal pemilih", "E": "Pengusulan dari Organisasi Masyarakat (Ormas)"}}, {"n": 5, "q": "Dalam penyusunan dan pemutakhiran data pemilih, pemilih yang telah terdaftar dalam DPT namun berniat memberikan suara di TPS/wilayah lain karena alasan tertentu dikategorikan ke dalam...", "o": {"A": "Daftar Pemilih Tetap (DPT)", "B": "Daftar Pemilih Tambahan (DPTb)", "C": "Daftar Pemilih Khusus (DPK)", "D": "Pemilih Pemula", "E": "Pemilih Tidak Terdaftar"}}, {"n": 6, "q": "Jenis pelanggaran pemilu yang berkaitan dengan tata cara, prosedur, atau mekanisme yang berkaitan dengan administrasi pelaksanaan tahapan pemilu disebut...", "o": {"A": "Tindak Pidana Pemilu", "B": "Pelanggaran Kode Etik Penyelenggara Pemilu", "C": "Pelanggaran Administrasi Pemilu", "D": "Sengketa Proses Pemilu", "E": "Sengketa Hasil Pemilu"}}, {"n": 7, "q": "Lembaga yang berwenang untuk mengadili dan memutuskan Sengketa Hasil Perselisihan Hasil Pemilihan Umum (PHPU) di Indonesia adalah...", "o": {"A": "Badan Pengawas Pemilihan Umum (Bawaslu)", "B": "Mahkamah Agung (MA)", "C": "Mahkamah Konstitusi (MK)", "D": "Pengadilan Negeri", "E": "Komisi Pemilihan Umum (KPU)"}}, {"n": 8, "q": "Di Indonesia, Pemilihan Umum pertama kali diselenggarakan pada tahun...", "o": {"A": "1945", "B": "1955", "C": "1971", "D": "1998", "E": "1999"}}, {"n": 9, "q": "Pemilih yang memiliki hak pilih dan menggunakan KTP-el tetapi tidak terdaftar dalam DPT maupun DPTb dapat menyalurkan hak pilihnya pada hari pemungutan suara sebagai...", "o": {"A": "Daftar Pemilih Tetap (DPT)", "B": "Daftar Pemilih Tambahan (DPTb)", "C": "Daftar Pemilih Khusus (DPK)", "D": "Pemilih Luar Negeri", "E": "Pemilih Cadangan"}}, {"n": 10, "q": "Tindak pidana pemilu seperti praktik politik uang (money politics) atau pemalsuan dokumen pemilu diproses dan ditangani melalui wadah penegakan hukum terpadu yang terdiri dari Bawaslu, Kepolisian, dan Kejaksaan, yang dikenal dengan nama...", "o": {"A": "DKPP", "B": "Gakkumdu (Sentra Penegakan Hukum Terpadu)", "C": "PTUN", "D": "Mahkamah Konstitusi", "E": "Komisi Yudisial"}}];
+            var SOAL = []; // dimuat dari server (Code.gs)
             var PILIHAN = ['A', 'B', 'C', 'D', 'E'];
 
             function $(id) { return document.getElementById(id); }
@@ -190,8 +197,10 @@
                 return fetch(ENDPOINT, { method: 'POST', body: JSON.stringify(payload) }).then(function (r) { return r.json(); });
             }
 
-            var soalBox = $('soal');
-            SOAL.forEach(function (it) {
+            function bangunSoal(list) {
+              SOAL = list.map(function (s, i) { return { n: i + 1, q: s.q, o: s.o }; });
+              var soalBox = $('soal');
+              SOAL.forEach(function (it) {
                 var card = el('fieldset', 'q-card');
                 card.id = 'card-' + it.n;
                 card.appendChild(el('legend', 'sr-only', 'Soal ' + it.n));
@@ -207,7 +216,22 @@
                     card.appendChild(lab);
                 });
                 soalBox.appendChild(card);
-            });
+              });
+            }
+
+            function pesan(teks) {
+                $('muat').classList.add('hidden');
+                $('pesan-isi').textContent = teks;
+                $('pesan').classList.remove('hidden');
+            }
+            kirim({ aksi: 'pretest_soal' })
+                .then(function (res) {
+                    if (!res.ok) { pesan(res.message || 'Pre test belum dibuka.'); return; }
+                    bangunSoal(res.soal);
+                    $('muat').classList.add('hidden');
+                    $('form-tes').classList.remove('hidden');
+                })
+                .catch(function () { pesan('Soal gagal dimuat. Periksa koneksi internet lalu muat ulang halaman.'); });
 
             var mulai = false, terkirim = false;
 
